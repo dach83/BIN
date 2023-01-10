@@ -12,13 +12,14 @@ import com.github.dach83.bin.core.presentation.navigation.TabItem
 import com.github.dach83.bin.core.presentation.navigation.Tabs
 import com.github.dach83.bin.core.presentation.navigation.TabsContent
 
+val navigationTabs = listOf(
+    TabItem.Search,
+    TabItem.History
+)
+
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen() {
-    val tabs = listOf(
-        TabItem.Search,
-        TabItem.History
-    )
+fun MainScreen(tabs: List<TabItem> = navigationTabs) {
     val pagerState = rememberPagerState()
     Scaffold() {
         Column(modifier = Modifier.padding(it)) {

@@ -1,14 +1,16 @@
 package com.github.dach83.bin.feature.search.presentation
 
 import com.github.dach83.bin.core.rule.CoroutineRule
-import com.github.dach83.bin.feature.search.INVALID_CARD_NUMBER
-import com.github.dach83.bin.feature.search.VALID_CARD_NUMBER
+import com.github.dach83.bin.feature.search.*
+import com.github.dach83.bin.feature.search.domain.exception.SearchException
+import com.github.dach83.bin.feature.search.domain.model.CardDetails
 import com.github.dach83.bin.feature.search.domain.usecase.RequestCardDetails
-import com.github.dach83.bin.feature.search.domain.usecase.ValidateCardNumber
 import com.github.dach83.bin.feature.search.fake.usecase.FakeRequestCardDetails
 import com.github.dach83.bin.feature.search.fake.usecase.FakeValidateCardNumber
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runCurrent
+import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
 
@@ -23,33 +25,14 @@ class SearchViewModelTest {
         // arrange
         val sut = createSearchViewModel()
         val expected = SearchUiState(
-            cardNumber = "",
+            cardNumber = EMPTY_CARD_NUMBER,
+            cardDetails = CardDetails(),
             isLoading = false,
             error = null
         )
 
-        // act
-        val actual = sut.uiState
-
         // assert
-        assertThat(actual).isEqualTo(expected)
-    }
-
-    @Test
-    fun entering_invalid_card_number_not_change_ui_state() {
-        // arrange
-        val validateCardNumber = FakeValidateCardNumber(false)
-        val sut = createSearchViewModel(
-            validateCardNumber = validateCardNumber
-        )
-        val expected = sut.uiState
-
-        // act
-        sut.changeCardNumber(INVALID_CARD_NUMBER)
-        val actual = sut.uiState
-
-        // assert
-        assertThat(actual).isEqualTo(expected)
+        assertThat(sut.uiState).isEqualTo(expected)
     }
 
     @Test
@@ -58,38 +41,107 @@ class SearchViewModelTest {
         val sut = createSearchViewModel()
         val expected = SearchUiState(
             cardNumber = VALID_CARD_NUMBER,
-            isLoading = true
+            isLoading = true,
+            error = null
         )
 
         // act
         sut.changeCardNumber(VALID_CARD_NUMBER)
-        val actual = sut.uiState
 
         // assert
-        assertThat(actual).isEqualTo(expected)
+        assertThat(sut.uiState).isEqualTo(expected)
     }
 
     @Test
-    fun entering_valid_card_number_request_card_details() {
+    fun entering_valid_card_number_request_card_details() = runTest {
         // arrange
         val requestCardDetails = FakeRequestCardDetails()
-        val sut = createSearchViewModel(
-            requestCardDetails = requestCardDetails
-        )
+        val sut = createSearchViewModel(requestCardDetails)
 
         // act
         sut.changeCardNumber(VALID_CARD_NUMBER)
-        coroutineRule.testDispatcher.scheduler.runCurrent()
+        runCurrent()
 
         // assert
         assertThat(requestCardDetails.wasCalled).isTrue()
     }
 
+    @Test
+    fun successful_request_card_details_updates_ui_state_to_loaded() = runTest {
+        // arrange
+        val requestCardDetails = FakeRequestCardDetails(visaCardDetails)
+        val sut = createSearchViewModel(requestCardDetails)
+        val expected = SearchUiState(
+            cardNumber = VALID_CARD_NUMBER,
+            cardDetails = visaCardDetails,
+            isLoading = false,
+            error = null
+        )
+
+        // act
+        sut.changeCardNumber(VALID_CARD_NUMBER)
+        runCurrent()
+
+        // assert
+        assertThat(sut.uiState).isEqualTo(expected)
+    }
+
+    @Test
+    fun entering_invalid_card_number_not_change_ui_state() = runTest {
+        // arrange
+        val sut = createSearchViewModel()
+        sut.changeCardNumber(VALID_CARD_NUMBER)
+        runCurrent()
+        val expected = sut.uiState
+
+        // act
+        sut.changeCardNumber(INVALID_CARD_NUMBER)
+        runCurrent()
+
+        // assert
+        assertThat(sut.uiState).isEqualTo(expected)
+    }
+
+    @Test
+    fun entering_empty_card_number_reset_ui_state_to_initial() = runTest {
+        // arrange
+        val sut = createSearchViewModel()
+        sut.changeCardNumber(VALID_CARD_NUMBER)
+        runCurrent()
+        val expected = SearchUiState()
+
+        // act
+        sut.changeCardNumber(EMPTY_CARD_NUMBER)
+        runCurrent()
+
+        // assert
+        assertThat(sut.uiState).isEqualTo(expected)
+    }
+
+    @Test
+    fun failed_request_card_details_updates_ui_state_to_error() = runTest {
+        // arrange
+        val requestException = SearchException(SEARCH_ERROR_MESSAGE)
+        val requestCardDetails = FakeRequestCardDetails(visaCardDetails, requestException)
+        val sut = createSearchViewModel(requestCardDetails)
+        val expected = SearchUiState(
+            cardNumber = VALID_CARD_NUMBER,
+            isLoading = false,
+            error = SEARCH_ERROR_MESSAGE
+        )
+
+        // act
+        sut.changeCardNumber(VALID_CARD_NUMBER)
+        runCurrent()
+
+        // assert
+        assertThat(sut.uiState).isEqualTo(expected)
+    }
+
     private fun createSearchViewModel(
-        validateCardNumber: ValidateCardNumber = FakeValidateCardNumber(isValidCardNumber = true),
         requestCardDetails: RequestCardDetails = FakeRequestCardDetails()
     ) = SearchViewModel(
-        validateCardNumber = validateCardNumber,
+        validateCardNumber = FakeValidateCardNumber(),
         requestCardDetails = requestCardDetails
     )
 }
