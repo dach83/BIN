@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">BIN</string>
+    <string name="search_tab">Search</string>
+    <string name="history_tab">History</string>
 </resources>
