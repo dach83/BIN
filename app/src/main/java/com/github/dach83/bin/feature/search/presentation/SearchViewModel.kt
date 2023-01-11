@@ -7,10 +7,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.dach83.bin.R
 import com.github.dach83.bin.feature.search.domain.exception.SearchException
-import com.github.dach83.bin.feature.search.domain.model.CardDetails
 import com.github.dach83.bin.feature.search.domain.usecase.RequestCardDetails
 import com.github.dach83.bin.feature.search.domain.usecase.ValidateCardNumber
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class SearchViewModel(
@@ -18,52 +18,53 @@ class SearchViewModel(
     private val requestCardDetails: RequestCardDetails
 ) : ViewModel() {
 
-    var uiState by mutableStateOf(SearchUiState())
+    var uiState by mutableStateOf(SearchUiState.INITIAL)
         private set
 
     private var loadingCardDetailsJob: Job? = null
 
     fun changeCardNumber(cardNumber: String) {
-        if (cardNumber.isEmpty()) {
-            resetUiState()
+        if (isEmptyCardNumber(cardNumber)) {
+            resetToInitialState()
             return
         }
 
-        val isValidCardNumber = validateCardNumber(cardNumber)
-        if (isValidCardNumber) {
+        if (isValidCardNumber(cardNumber)) {
             loadCardDetails(cardNumber)
         }
     }
 
-    private fun resetUiState() {
-        uiState = SearchUiState()
+    private fun isEmptyCardNumber(cardNumber: String): Boolean = cardNumber.isEmpty()
+
+    private fun isValidCardNumber(cardNumber: String): Boolean = validateCardNumber(cardNumber)
+
+    private fun resetToInitialState() {
+        uiState = SearchUiState.INITIAL
+        loadingCardDetailsJob?.cancel()
     }
 
     private fun loadCardDetails(cardNumber: String) {
-        uiState = uiState.copy(
-            cardNumber = cardNumber,
-            isLoading = true,
-            error = null
-        )
+        if (cardDetailsAlreadyLoading(cardNumber)) {
+            return
+        }
 
+        uiState = uiState.loading(cardNumber)
         loadingCardDetailsJob?.cancel()
         loadingCardDetailsJob = viewModelScope.launch {
             runCatching {
+                delay(WAIT_USER_INPUT_BEFORE_REQUEST)
                 requestCardDetails(cardNumber)
             }.onSuccess { cardDetails ->
-                uiState = uiState.copy(
-                    cardDetails = cardDetails,
-                    isLoading = false,
-                    error = null
-                )
+                uiState = uiState.loaded(cardDetails)
             }.onFailure { exception ->
-                uiState = uiState.copy(
-                    cardDetails = CardDetails(),
-                    isLoading = false,
-                    error = errorMessage(exception)
-                )
+                val errorMessage = errorMessage(exception)
+                uiState = uiState.error(errorMessage)
             }
         }
+    }
+
+    private fun cardDetailsAlreadyLoading(cardNumber: String): Boolean {
+        return uiState.cardNumber == cardNumber && uiState.errorMessage == null
     }
 
     private fun errorMessage(exception: Throwable): Int =
@@ -72,4 +73,8 @@ class SearchViewModel(
         } else {
             R.string.default_search_error_message
         }
+
+    companion object {
+        const val WAIT_USER_INPUT_BEFORE_REQUEST = 500L
+    }
 }
