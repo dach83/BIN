@@ -11,7 +11,7 @@ data class BankDetails(
             name = "?",
             url = "?",
             phone = "?",
-            city = ""
+            city = "?"
         )
     }
 }

@@ -5,7 +5,7 @@ data class CardDetails(
     val scheme: String,
     val type: String,
     val brand: String,
-    val prepaid: Boolean,
+    val prepaid: String,
     val country: CountryDetails,
     val bank: BankDetails
 ) {
@@ -15,7 +15,7 @@ data class CardDetails(
             scheme = "?",
             type = "?",
             brand = "?",
-            prepaid = false,
+            prepaid = "?",
             country = CountryDetails.EMPTY,
             bank = BankDetails.EMPTY
         )

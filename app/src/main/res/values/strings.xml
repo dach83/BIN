@@ -3,4 +3,24 @@
     <string name="search_tab">Search</string>
     <string name="history_tab">History</string>
     <string name="default_search_error_message">Error when requesting card data</string>
+    <string name="card_head">Card</string>
+    <string name="card_scheme">Scheme</string>
+    <string name="card_type">Type</string>
+    <string name="card_brand">Brand</string>
+    <string name="card_prepaid">Prepaid</string>
+    <string name="number_head">Card Number</string>
+    <string name="number_length">Length</string>
+    <string name="number_luhn">Luhn</string>
+    <string name="country_head">Country</string>
+    <string name="country_numeric">Numeric</string>
+    <string name="country_alpha2">Alpha2</string>
+    <string name="country_name">Name</string>
+    <string name="country_currency">Currency</string>
+    <string name="country_latitude">Latitude</string>
+    <string name="country_longitude">Longitude</string>
+    <string name="bank_head">Bank</string>
+    <string name="bank_name">Name</string>
+    <string name="bank_url">Url</string>
+    <string name="bank_phone">Phone</string>
+    <string name="bank_city">City</string>
 </resources>

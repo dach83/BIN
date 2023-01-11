@@ -14,15 +14,14 @@ class FakeSearchRepository : SearchRepository {
             scheme = "visa",
             type = "debit",
             brand = "Visa/Dankort",
-            prepaid = false,
+            prepaid = "No",
             country = CountryDetails(
                 numeric = "208",
                 alpha2 = "DK",
                 name = "Denmark",
-                emoji = "\uD83C\uDDE9\uD83C\uDDF0",
                 currency = "DKK",
-                latitude = 56,
-                longitude = 10
+                latitude = "56",
+                longitude = "10"
             ),
             bank = BankDetails(
                 name = "Jyske Ban",

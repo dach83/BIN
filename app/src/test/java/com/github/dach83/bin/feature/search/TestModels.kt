@@ -19,15 +19,14 @@ val visaCardDetails = CardDetails(
     scheme = "visa",
     type = "debit",
     brand = "Visa/Dankort",
-    prepaid = false,
+    prepaid = "No",
     country = CountryDetails(
         numeric = "208",
         alpha2 = "DK",
         name = "Denmark",
-        emoji = "\uD83C\uDDE9\uD83C\uDDF0",
         currency = "DKK",
-        latitude = 56,
-        longitude = 10
+        latitude = "56",
+        longitude = "10"
     ),
     bank = BankDetails(
         name = "Jyske Ban",
@@ -39,21 +38,20 @@ val visaCardDetails = CardDetails(
 
 val masterCardDetails = CardDetails(
     number = NumberDetails(
-        length = 16,
-        luhn = true
+        length = "16",
+        luhn = "Yes"
     ),
     scheme = "mastercard",
     type = "credit",
     brand = "Standard",
-    prepaid = false,
+    prepaid = "No",
     country = CountryDetails(
         numeric = "643",
         alpha2 = "RU",
         name = "Russian Federation",
-        emoji = "\uD83C\uDDF7\uD83C\uDDFA",
         currency = "RUB",
-        latitude = 60,
-        longitude = 100
+        latitude = "60",
+        longitude = "100"
     ),
     bank = BankDetails(
         name = "VTB24",

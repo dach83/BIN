@@ -4,20 +4,18 @@ data class CountryDetails(
     val numeric: String,
     val alpha2: String,
     val name: String,
-    val emoji: String,
     val currency: String,
-    val latitude: Int,
-    val longitude: Int
+    val latitude: String,
+    val longitude: String
 ) {
     companion object {
         val EMPTY = CountryDetails(
             numeric = "?",
             alpha2 = "?",
             name = "?",
-            emoji = "?",
             currency = "?",
-            latitude = 0,
-            longitude = 0
+            latitude = "?",
+            longitude = "?"
         )
     }
 }
