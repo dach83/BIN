@@ -7,5 +7,5 @@ class RequestCardDetailsImpl(
     private val searchRepository: SearchRepository
 ) : RequestCardDetails {
     override suspend fun invoke(cardNumber: String): CardDetails =
-        searchRepository.requestCardDetails(cardNumber)
+        searchRepository.getCardDetails(cardNumber)
 }
