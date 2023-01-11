@@ -4,7 +4,6 @@ import com.github.dach83.bin.core.rule.CoroutineRule
 import com.github.dach83.bin.feature.search.*
 import com.github.dach83.bin.feature.search.domain.exception.SearchException
 import com.github.dach83.bin.feature.search.domain.model.CardDetails
-import com.github.dach83.bin.feature.search.domain.usecase.RequestCardDetails
 import com.github.dach83.bin.feature.search.fake.usecase.FakeRequestCardDetails
 import com.github.dach83.bin.feature.search.fake.usecase.FakeValidateCardNumber
 import com.google.common.truth.Truth.assertThat
@@ -19,6 +18,9 @@ class SearchViewModelTest {
 
     @get:Rule
     val coroutineRule = CoroutineRule()
+
+    private val validateCardNumber = FakeValidateCardNumber()
+    private val requestCardDetails = FakeRequestCardDetails()
 
     @Test
     fun check_initial_ui_state() {
@@ -55,8 +57,7 @@ class SearchViewModelTest {
     @Test
     fun entering_valid_card_number_request_card_details() = runTest {
         // arrange
-        val requestCardDetails = FakeRequestCardDetails()
-        val sut = createSearchViewModel(requestCardDetails)
+        val sut = createSearchViewModel()
 
         // act
         sut.changeCardNumber(VALID_CARD_NUMBER)
@@ -69,8 +70,7 @@ class SearchViewModelTest {
     @Test
     fun successful_request_card_details_updates_ui_state_to_loaded() = runTest {
         // arrange
-        val requestCardDetails = FakeRequestCardDetails(visaCardDetails)
-        val sut = createSearchViewModel(requestCardDetails)
+        val sut = createSearchViewModel()
         val expected = SearchUiState(
             cardNumber = VALID_CARD_NUMBER,
             cardDetails = visaCardDetails,
@@ -122,8 +122,8 @@ class SearchViewModelTest {
     fun failed_request_card_details_updates_ui_state_to_error() = runTest {
         // arrange
         val requestException = SearchException(SEARCH_ERROR_MESSAGE)
-        val requestCardDetails = FakeRequestCardDetails(visaCardDetails, requestException)
-        val sut = createSearchViewModel(requestCardDetails)
+        requestCardDetails.toFailureMode(requestException)
+        val sut = createSearchViewModel()
         val expected = SearchUiState(
             cardNumber = VALID_CARD_NUMBER,
             isLoading = false,
@@ -138,9 +138,7 @@ class SearchViewModelTest {
         assertThat(sut.uiState).isEqualTo(expected)
     }
 
-    private fun createSearchViewModel(
-        requestCardDetails: RequestCardDetails = FakeRequestCardDetails()
-    ) = SearchViewModel(
+    private fun createSearchViewModel() = SearchViewModel(
         validateCardNumber = FakeValidateCardNumber(),
         requestCardDetails = requestCardDetails
     )
