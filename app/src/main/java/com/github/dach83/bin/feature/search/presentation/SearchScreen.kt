@@ -35,6 +35,9 @@ fun SearchScreen(viewModel: SearchViewModel = koinViewModel()) {
         CardNumberTextField(cardNumber = uiState.cardNumber, onValueChange = { newCardNumber ->
             viewModel.changeCardNumber(newCardNumber)
         })
+        if (uiState.errorMessage != null) {
+            Text(text = stringResource(id = uiState.errorMessage))
+        }
         Spacer(modifier = Modifier.height(32.dp))
         LazyColumn(modifier = Modifier.testTag(SearchScreenTags.LAZY_COLUMN)) {
             card(uiState.cardDetails)
@@ -68,7 +71,9 @@ private fun CardNumberTextField(
             },
             textStyle = MaterialTheme.typography.titleLarge.copy(textAlign = TextAlign.Center),
             singleLine = true,
-            modifier = Modifier.fillMaxWidth().testTag(SearchScreenTags.INPUT_CARD_NUMBER)
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag(SearchScreenTags.INPUT_CARD_NUMBER)
         )
         Text(
             text = stringResource(R.string.input_card_number_label),
@@ -179,7 +184,10 @@ private fun LazyListScope.header(@StringRes header: Int) {
     stickyHeader {
         Text(
             text = stringResource(id = header).toUpperCase(Locale.current),
-            modifier = Modifier.background(Color.LightGray).padding(8.dp).fillMaxWidth()
+            modifier = Modifier
+                .background(Color.LightGray)
+                .padding(8.dp)
+                .fillMaxWidth()
         )
     }
 }
@@ -192,7 +200,9 @@ private fun LazyListScope.detail(
     item {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp).fillMaxWidth()
+            modifier = Modifier
+                .padding(horizontal = 8.dp, vertical = 4.dp)
+                .fillMaxWidth()
         ) {
             Text(
                 text = stringResource(id = header).toLowerCase(Locale.current)

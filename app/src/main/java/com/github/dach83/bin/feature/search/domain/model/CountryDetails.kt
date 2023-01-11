@@ -10,12 +10,12 @@ data class CountryDetails(
 ) {
     companion object {
         val EMPTY = CountryDetails(
-            numeric = "?",
-            alpha2 = "?",
-            name = "?",
-            currency = "?",
-            latitude = "?",
-            longitude = "?"
+            numeric = "",
+            alpha2 = "",
+            name = "",
+            currency = "",
+            latitude = "",
+            longitude = ""
         )
     }
 }

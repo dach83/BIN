@@ -12,10 +12,10 @@ data class CardDetails(
     companion object {
         val EMPTY = CardDetails(
             number = NumberDetails.EMPTY,
-            scheme = "?",
-            type = "?",
-            brand = "?",
-            prepaid = "?",
+            scheme = "",
+            type = "",
+            brand = "",
+            prepaid = "",
             country = CountryDetails.EMPTY,
             bank = BankDetails.EMPTY
         )

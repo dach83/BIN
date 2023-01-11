@@ -8,10 +8,10 @@ data class BankDetails(
 ) {
     companion object {
         val EMPTY = BankDetails(
-            name = "?",
-            url = "?",
-            phone = "?",
-            city = "?"
+            name = "",
+            url = "",
+            phone = "",
+            city = ""
         )
     }
 }

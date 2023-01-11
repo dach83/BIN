@@ -6,8 +6,8 @@ data class NumberDetails(
 ) {
     companion object {
         val EMPTY = NumberDetails(
-            length = "?",
-            luhn = "?"
+            length = "",
+            luhn = ""
         )
     }
 }

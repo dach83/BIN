@@ -1,4 +1,4 @@
-package com.github.dach83.bin.core.rule
+package com.github.dach83.bin.rule
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
