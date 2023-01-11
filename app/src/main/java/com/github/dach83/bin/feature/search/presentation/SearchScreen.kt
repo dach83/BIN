@@ -36,12 +36,17 @@ fun SearchScreen(viewModel: SearchViewModel = koinViewModel()) {
             viewModel.changeCardNumber(newCardNumber)
         })
         Spacer(modifier = Modifier.height(32.dp))
-        LazyColumn(modifier = Modifier.testTag(SearchTestTags.LAZY_COLUMN)) {
+        LazyColumn(modifier = Modifier.testTag(SearchScreenTags.LAZY_COLUMN)) {
             card(uiState.cardDetails)
             number(uiState.cardDetails)
             country(uiState.cardDetails)
             bank(uiState.cardDetails)
         }
+    }
+    if (uiState.isLoading) {
+        // inserting an invisible box in order to in tests it was
+        // possible to determine the time of the end of the loading
+        Box(modifier = Modifier.testTag(SearchScreenTags.LOADING))
     }
 }
 
@@ -63,10 +68,10 @@ private fun CardNumberTextField(
             },
             textStyle = MaterialTheme.typography.titleLarge.copy(textAlign = TextAlign.Center),
             singleLine = true,
-            modifier = Modifier.fillMaxWidth().testTag(SearchTestTags.INPUT_CARD_NUMBER)
+            modifier = Modifier.fillMaxWidth().testTag(SearchScreenTags.INPUT_CARD_NUMBER)
         )
         Text(
-            text = "Enter the first digits of a card number (BIN/IIN)",
+            text = stringResource(R.string.input_card_number_label),
             style = MaterialTheme.typography.bodySmall,
             color = Color.Gray
         )
@@ -78,22 +83,22 @@ private fun LazyListScope.card(cardDetails: CardDetails) {
     detail(
         header = R.string.card_scheme,
         cardDetails.scheme,
-        SearchTestTags.CARD_SCHEME
+        SearchScreenTags.CARD_SCHEME
     )
     detail(
         header = R.string.card_type,
         cardDetails.type,
-        SearchTestTags.CARD_TYPE
+        SearchScreenTags.CARD_TYPE
     )
     detail(
         header = R.string.card_brand,
         cardDetails.brand,
-        SearchTestTags.CARD_BRAND
+        SearchScreenTags.CARD_BRAND
     )
     detail(
         header = R.string.card_prepaid,
         cardDetails.prepaid,
-        SearchTestTags.CARD_PREPAID
+        SearchScreenTags.CARD_PREPAID
     )
 }
 
@@ -102,12 +107,12 @@ private fun LazyListScope.number(cardDetails: CardDetails) {
     detail(
         header = R.string.number_length,
         cardDetails.number.length,
-        SearchTestTags.NUMBER_LENGTH
+        SearchScreenTags.NUMBER_LENGTH
     )
     detail(
         header = R.string.number_luhn,
         cardDetails.number.luhn,
-        SearchTestTags.NUMBER_LUHN
+        SearchScreenTags.NUMBER_LUHN
     )
 }
 
@@ -116,32 +121,32 @@ private fun LazyListScope.country(cardDetails: CardDetails) {
     detail(
         header = R.string.country_numeric,
         cardDetails.country.numeric,
-        SearchTestTags.COUNTRY_NUMERIC
+        SearchScreenTags.COUNTRY_NUMERIC
     )
     detail(
         header = R.string.country_alpha2,
         cardDetails.country.alpha2,
-        SearchTestTags.COUNTRY_ALPHA2
+        SearchScreenTags.COUNTRY_ALPHA2
     )
     detail(
         header = R.string.country_name,
         cardDetails.country.name,
-        SearchTestTags.COUNTRY_NAME
+        SearchScreenTags.COUNTRY_NAME
     )
     detail(
         header = R.string.country_currency,
         cardDetails.country.currency,
-        SearchTestTags.COUNTRY_CURRENCY
+        SearchScreenTags.COUNTRY_CURRENCY
     )
     detail(
         header = R.string.country_latitude,
         cardDetails.country.latitude,
-        SearchTestTags.COUNTRY_LATITUDE
+        SearchScreenTags.COUNTRY_LATITUDE
     )
     detail(
         header = R.string.country_longitude,
         cardDetails.country.longitude,
-        SearchTestTags.COUNTRY_LONGITUDE
+        SearchScreenTags.COUNTRY_LONGITUDE
     )
 }
 
@@ -150,22 +155,22 @@ private fun LazyListScope.bank(cardDetails: CardDetails) {
     detail(
         header = R.string.bank_name,
         cardDetails.bank.name,
-        SearchTestTags.BANK_NAME
+        SearchScreenTags.BANK_NAME
     )
     detail(
         header = R.string.bank_url,
         cardDetails.bank.url,
-        SearchTestTags.BANK_URL
+        SearchScreenTags.BANK_URL
     )
     detail(
         header = R.string.bank_phone,
         cardDetails.bank.phone,
-        SearchTestTags.BANK_PHONE
+        SearchScreenTags.BANK_PHONE
     )
     detail(
         header = R.string.bank_city,
         cardDetails.bank.city,
-        SearchTestTags.BANK_CITY
+        SearchScreenTags.BANK_CITY
     )
 }
 

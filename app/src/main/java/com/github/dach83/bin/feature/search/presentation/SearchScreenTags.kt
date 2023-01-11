@@ -1,6 +1,8 @@
 package com.github.dach83.bin.feature.search.presentation
 
-object SearchTestTags {
+object SearchScreenTags {
+    const val LOADING = "loading"
+
     const val INPUT_CARD_NUMBER = "input card number"
 
     const val CARD_SCHEME = "card scheme"

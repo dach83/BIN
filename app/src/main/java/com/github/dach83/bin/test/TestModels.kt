@@ -1,4 +1,4 @@
-package com.github.dach83.bin.feature.search
+package com.github.dach83.bin.test
 
 import com.github.dach83.bin.feature.search.domain.model.BankDetails
 import com.github.dach83.bin.feature.search.domain.model.CardDetails
@@ -8,6 +8,7 @@ import com.github.dach83.bin.feature.search.domain.model.NumberDetails
 const val EMPTY_CARD_NUMBER = ""
 const val BLANK_CARD_NUMBER = "   "
 const val VISA_CARD_NUMBER = "45717360"
+const val VISA_CARD_NUMBER_FORMATTED = "4571 7360 "
 const val MASTER_CARD_NUMBER = "554386014950"
 const val INVALID_CARD_NUMBER = "INVALID"
 const val MIXED_CARD_NUMBER = "23,xc]["

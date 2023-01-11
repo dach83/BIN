@@ -5,6 +5,7 @@ import com.github.dach83.bin.feature.search.*
 import com.github.dach83.bin.feature.search.domain.model.CardDetails
 import com.github.dach83.bin.feature.search.fake.usecase.FakeRequestCardDetails
 import com.github.dach83.bin.feature.search.fake.usecase.FakeValidateCardNumber
+import com.github.dach83.bin.test.*
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestScope
