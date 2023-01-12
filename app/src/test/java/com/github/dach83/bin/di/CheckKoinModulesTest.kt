@@ -9,11 +9,6 @@ import org.koin.test.verify.verify
 class CheckKoinModulesTest : KoinTest {
 
     @Test
-    fun `check navigation module`() {
-        navigationModule.verify()
-    }
-
-    @Test
     fun `check search module`() {
         searchModule.verify()
     }

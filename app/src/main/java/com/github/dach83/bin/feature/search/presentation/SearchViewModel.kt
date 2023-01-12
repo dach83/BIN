@@ -63,6 +63,7 @@ class SearchViewModel(
         }
     }
 
+    // Information about a card with this number has been loaded or is loading now
     private fun cardDetailsAlreadyLoading(cardNumber: String): Boolean {
         return uiState.cardNumber == cardNumber && uiState.errorMessage == null
     }

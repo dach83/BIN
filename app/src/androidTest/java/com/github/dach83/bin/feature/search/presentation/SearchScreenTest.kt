@@ -60,6 +60,7 @@ class SearchScreenTest {
         hasTestTag(SearchScreenTags.LOADING)
     )
 
+    // todo Too long function
     private fun assertSearchScreen(
         expectedCardNumber: String,
         expectedCardDetails: CardDetails

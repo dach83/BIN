@@ -8,16 +8,18 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.github.dach83.bin.core.presentation.navigation.NAVIGATION_TABS
 import com.github.dach83.bin.core.presentation.navigation.TabItem
 import com.github.dach83.bin.core.presentation.navigation.Tabs
 import com.github.dach83.bin.core.presentation.navigation.TabsContent
-import org.koin.androidx.compose.get
-import org.koin.core.qualifier.named
+
+private val navigationTabs = listOf(
+    TabItem.Search,
+    TabItem.History
+)
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(tabs: List<TabItem> = get(named(NAVIGATION_TABS))) {
+fun MainScreen(tabs: List<TabItem> = navigationTabs) {
     val pagerState = rememberPagerState()
     Scaffold() {
         Column(modifier = Modifier.padding(it)) {

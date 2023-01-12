@@ -25,6 +25,8 @@ import com.github.dach83.bin.R
 import com.github.dach83.bin.feature.search.domain.model.CardDetails
 import org.koin.androidx.compose.koinViewModel
 
+// todo Too long file
+
 @Composable
 fun SearchScreen(viewModel: SearchViewModel = koinViewModel()) {
     val uiState = viewModel.uiState

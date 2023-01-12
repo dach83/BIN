@@ -5,6 +5,7 @@ import com.github.dach83.bin.feature.search.domain.model.CardDetails
 import com.github.dach83.bin.feature.search.domain.model.CountryDetails
 import com.github.dach83.bin.feature.search.domain.model.NumberDetails
 
+// todo Move to sharedTest
 const val EMPTY_CARD_NUMBER = ""
 const val BLANK_CARD_NUMBER = "   "
 const val VISA_CARD_NUMBER = "45717360"
