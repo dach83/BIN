@@ -1,7 +1,7 @@
 package com.github.dach83.bin.feature.search.presentation
 
+import com.github.dach83.bin.core.domain.model.CardDetails
 import com.github.dach83.bin.feature.search.*
-import com.github.dach83.bin.feature.search.domain.model.CardDetails
 import com.github.dach83.bin.feature.search.fake.usecase.FakeRequestCardDetails
 import com.github.dach83.bin.feature.search.fake.usecase.FakeValidateCardNumber
 import com.github.dach83.bin.rule.CoroutineRule

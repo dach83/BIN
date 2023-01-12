@@ -1,5 +1,7 @@
 package com.github.dach83.sharedtestcode.models
 
+const val errorResponse = "Not a JSON"
+
 val visaCardResponse = """
         {
           "number": {
@@ -27,5 +29,3 @@ val visaCardResponse = """
           }
         }
 """.trimIndent()
-
-const val errorResponse = "Not a JSON"

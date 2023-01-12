@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.dach83.bin.R
-import com.github.dach83.bin.feature.search.domain.exception.SearchException
+import com.github.dach83.bin.core.domain.exception.BinException
 import com.github.dach83.bin.feature.search.domain.usecase.RequestCardDetails
 import com.github.dach83.bin.feature.search.domain.usecase.ValidateCardNumber
 import kotlinx.coroutines.CancellationException
@@ -59,8 +59,7 @@ class SearchViewModel(
                 uiState = uiState.loaded(cardDetails)
             }.onFailure { cause ->
                 if (cause is CancellationException) return@launch
-                val errorMessage = errorMessage(cause)
-                uiState = uiState.error(errorMessage)
+                uiState = uiState.error(errorMessage(cause))
             }
         }
     }
@@ -71,7 +70,7 @@ class SearchViewModel(
     }
 
     private fun errorMessage(exception: Throwable): Int =
-        if (exception is SearchException) {
+        if (exception is BinException) {
             exception.errorMessage
         } else {
             R.string.unknown_error

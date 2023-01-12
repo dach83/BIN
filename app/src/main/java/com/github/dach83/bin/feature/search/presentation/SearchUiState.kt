@@ -1,7 +1,7 @@
 package com.github.dach83.bin.feature.search.presentation
 
 import androidx.annotation.StringRes
-import com.github.dach83.bin.feature.search.domain.model.CardDetails
+import com.github.dach83.bin.core.domain.model.CardDetails
 
 data class SearchUiState(
     val cardNumber: String,

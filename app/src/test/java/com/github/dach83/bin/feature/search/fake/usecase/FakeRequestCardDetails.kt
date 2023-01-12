@@ -1,7 +1,7 @@
 package com.github.dach83.bin.feature.search.fake.usecase
 
-import com.github.dach83.bin.feature.search.domain.exception.SearchException
-import com.github.dach83.bin.feature.search.domain.model.CardDetails
+import com.github.dach83.bin.core.domain.exception.BinException
+import com.github.dach83.bin.core.domain.model.CardDetails
 import com.github.dach83.bin.feature.search.domain.usecase.RequestCardDetails
 import com.github.dach83.sharedtestcode.models.*
 
@@ -27,7 +27,7 @@ class FakeRequestCardDetails : RequestCardDetails {
     }
 
     fun toFailureMode() {
-        requestException = SearchException(SEARCH_ERROR_MESSAGE)
+        requestException = BinException(SEARCH_ERROR_MESSAGE)
     }
 
     fun resetRequestCounter() {

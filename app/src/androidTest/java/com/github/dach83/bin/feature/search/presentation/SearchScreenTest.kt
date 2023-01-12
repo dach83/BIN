@@ -1,9 +1,8 @@
 package com.github.dach83.bin.feature.search.presentation
 
 import androidx.compose.ui.test.*
-import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.junit4.createComposeRule
-import com.github.dach83.bin.feature.search.domain.model.CardDetails
+import com.github.dach83.bin.core.domain.model.CardDetails
 import com.github.dach83.sharedtestcode.models.*
 import org.junit.Rule
 import org.junit.Test
@@ -53,16 +52,17 @@ class SearchScreenTest {
         waitUntilLoading()
     }
 
-    private fun waitUntilLoading() = composeRule.waitUntilDoesNotExist(
-        hasTestTag(SearchScreenTags.LOADING_INDICATOR)
-    )
+    private fun waitUntilLoading() = composeRule.waitUntil {
+        composeRule.onAllNodesWithTag(SearchScreenTags.LOADING_INDICATOR)
+            .fetchSemanticsNodes()
+            .isEmpty()
+    }
 
-    // todo Too long function
     private fun assertSearchScreen(
         expectedCardNumber: String,
         expectedCardDetails: CardDetails
     ) {
-        // check card number
+        // check card number edit
         composeRule.onNodeWithTag(SearchScreenTags.CARD_NUMBER_EDIT)
             .assertTextEquals(expectedCardNumber)
 
@@ -109,20 +109,3 @@ class SearchScreenTest {
             .assertTextEquals(expectedCardDetails.bank.city)
     }
 }
-
-private const val WAIT_UNTIL_TIMEOUT = 1_000L
-
-private fun ComposeContentTestRule.waitUntilNodeCount(
-    matcher: SemanticsMatcher,
-    count: Int,
-    timeoutMillis: Long = WAIT_UNTIL_TIMEOUT
-) {
-    waitUntil(timeoutMillis) {
-        onAllNodes(matcher).fetchSemanticsNodes().size == count
-    }
-}
-
-private fun ComposeContentTestRule.waitUntilDoesNotExist(
-    matcher: SemanticsMatcher,
-    timeoutMillis: Long = WAIT_UNTIL_TIMEOUT
-) = waitUntilNodeCount(matcher, 0, timeoutMillis)
