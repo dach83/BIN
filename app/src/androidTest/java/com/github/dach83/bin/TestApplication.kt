@@ -2,7 +2,7 @@ package com.github.dach83.bin
 
 import android.app.Application
 import com.github.dach83.bin.di.searchModule
-import com.github.dach83.bin.di.testModule
+import com.github.dach83.sharedtestcode.testModule
 import org.koin.core.context.GlobalContext.startKoin
 
 class TestApplication : Application() {

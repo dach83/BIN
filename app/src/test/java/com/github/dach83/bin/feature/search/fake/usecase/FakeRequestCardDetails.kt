@@ -3,7 +3,7 @@ package com.github.dach83.bin.feature.search.fake.usecase
 import com.github.dach83.bin.feature.search.domain.exception.SearchException
 import com.github.dach83.bin.feature.search.domain.model.CardDetails
 import com.github.dach83.bin.feature.search.domain.usecase.RequestCardDetails
-import com.github.dach83.sharedtestcode.*
+import com.github.dach83.sharedtestcode.models.*
 
 class FakeRequestCardDetails : RequestCardDetails {
 

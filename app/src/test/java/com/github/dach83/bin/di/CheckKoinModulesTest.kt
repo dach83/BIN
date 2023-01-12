@@ -1,5 +1,6 @@
 package com.github.dach83.bin.di
 
+import com.github.dach83.sharedtestcode.testModule
 import org.junit.Test
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.test.KoinTest
@@ -16,5 +17,10 @@ class CheckKoinModulesTest : KoinTest {
     @Test
     fun `check remote module`() {
         remoteModule.verify()
+    }
+
+    @Test
+    fun `check test module`() {
+        testModule.verify()
     }
 }

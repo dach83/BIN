@@ -4,10 +4,10 @@ import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.junit4.createComposeRule
 import com.github.dach83.bin.feature.search.domain.model.CardDetails
-import com.github.dach83.sharedtestcode.EMPTY_CARD_NUMBER
-import com.github.dach83.sharedtestcode.VISA_CARD_NUMBER
-import com.github.dach83.sharedtestcode.VISA_CARD_NUMBER_FORMATTED
-import com.github.dach83.sharedtestcode.visaCardDetails
+import com.github.dach83.sharedtestcode.models.EMPTY_CARD_NUMBER
+import com.github.dach83.sharedtestcode.models.VISA_CARD_NUMBER
+import com.github.dach83.sharedtestcode.models.VISA_CARD_NUMBER_FORMATTED
+import com.github.dach83.sharedtestcode.models.visaCardDetails
 import org.junit.Rule
 import org.junit.Test
 

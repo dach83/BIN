@@ -1,7 +1,7 @@
-package com.github.dach83.bin.di
+package com.github.dach83.sharedtestcode
 
 import com.github.dach83.bin.feature.search.domain.repository.SearchRepository
-import com.github.dach83.sharedtestcode.FakeSearchRepository
+import com.github.dach83.sharedtestcode.fake.FakeSearchRepository
 import org.koin.dsl.module
 
 val testModule = module {
