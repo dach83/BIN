@@ -1,6 +1,6 @@
 package com.github.dach83.bin.feature.search.domain.usecase
 
-import com.github.dach83.bin.test.*
+import com.github.dach83.sharedtestcode.*
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
