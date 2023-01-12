@@ -4,6 +4,7 @@
     <string name="search_tab">Search</string>
     <string name="history_tab">History</string>
     <!--  Search screen  -->
+    <string name="loading">Loading…</string>
     <string name="input_card_number_label">Enter the first digits of a card number (BIN/IIN)</string>
     <string name="card_head">Card</string>
     <string name="card_scheme">Scheme</string>
@@ -30,4 +31,5 @@
     <string name="unknown_format">Unknown response format</string>
     <string name="no_internet">No internet connection</string>
     <string name="binlookup_hit_request_limit">Hit request limit to BinLookup service</string>
+
 </resources>

@@ -51,3 +51,28 @@ val masterCardDetails = CardDetails(
         city = ""
     )
 )
+
+val emptyCardDetailsOnScreen = CardDetails(
+    number = NumberDetails(
+        length = "?",
+        luhn = "?"
+    ),
+    scheme = "?",
+    type = "?",
+    brand = "?",
+    prepaid = "?",
+    country = CountryDetails(
+        numeric = "?",
+        alpha2 = "?",
+        name = "?",
+        currency = "?",
+        latitude = "?",
+        longitude = "?"
+    ),
+    bank = BankDetails(
+        name = "?",
+        url = "?",
+        phone = "?",
+        city = "?"
+    )
+)

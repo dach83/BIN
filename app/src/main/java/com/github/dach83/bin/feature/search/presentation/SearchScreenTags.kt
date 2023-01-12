@@ -1,9 +1,10 @@
 package com.github.dach83.bin.feature.search.presentation
 
 object SearchScreenTags {
-    const val LOADING = "loading"
-
-    const val INPUT_CARD_NUMBER = "input card number"
+    const val ERROR_MESSAGE = "error message"
+    const val LOADING_INDICATOR = "loading indicator"
+    const val CARD_NUMBER_EDIT = "card number edit"
+    const val CARD_DETAILS_LIST = "card details list"
 
     const val CARD_SCHEME = "card scheme"
     const val CARD_TYPE = "card type"
@@ -24,6 +25,4 @@ object SearchScreenTags {
     const val BANK_URL = "bank url"
     const val BANK_PHONE = "bank phone"
     const val BANK_CITY = "bank city"
-
-    const val LAZY_COLUMN = "lazy column"
 }

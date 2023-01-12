@@ -4,10 +4,7 @@ import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.junit4.createComposeRule
 import com.github.dach83.bin.feature.search.domain.model.CardDetails
-import com.github.dach83.sharedtestcode.models.EMPTY_CARD_NUMBER
-import com.github.dach83.sharedtestcode.models.VISA_CARD_NUMBER
-import com.github.dach83.sharedtestcode.models.VISA_CARD_NUMBER_FORMATTED
-import com.github.dach83.sharedtestcode.models.visaCardDetails
+import com.github.dach83.sharedtestcode.models.*
 import org.junit.Rule
 import org.junit.Test
 
@@ -17,10 +14,10 @@ class SearchScreenTest {
     val composeRule = createComposeRule()
 
     @Test
-    fun input_empty_card_number_reset_card_details() {
+    fun input_empty_card_number_displays_empty_card_details() {
         // arrange
         val expectedCardNumber = EMPTY_CARD_NUMBER
-        val expectedCardDetails = CardDetails.EMPTY
+        val expectedCardDetails = emptyCardDetailsOnScreen
 
         // act
         launchSearchScreen()
@@ -31,7 +28,7 @@ class SearchScreenTest {
     }
 
     @Test
-    fun input_valid_card_number_updates_card_details() {
+    fun input_correct_card_number_displays_correct_card_details() {
         // arrange
         val expectedCardNumber = VISA_CARD_NUMBER_FORMATTED
         val expectedCardDetails = visaCardDetails
@@ -51,13 +48,13 @@ class SearchScreenTest {
     }
 
     private fun inputCardNumber(cardNumber: String) {
-        composeRule.onNodeWithTag(SearchScreenTags.INPUT_CARD_NUMBER)
+        composeRule.onNodeWithTag(SearchScreenTags.CARD_NUMBER_EDIT)
             .performTextReplacement(cardNumber)
         waitUntilLoading()
     }
 
     private fun waitUntilLoading() = composeRule.waitUntilDoesNotExist(
-        hasTestTag(SearchScreenTags.LOADING)
+        hasTestTag(SearchScreenTags.LOADING_INDICATOR)
     )
 
     // todo Too long function
@@ -66,7 +63,7 @@ class SearchScreenTest {
         expectedCardDetails: CardDetails
     ) {
         // check card number
-        composeRule.onNodeWithTag(SearchScreenTags.INPUT_CARD_NUMBER)
+        composeRule.onNodeWithTag(SearchScreenTags.CARD_NUMBER_EDIT)
             .assertTextEquals(expectedCardNumber)
 
         // check card section
@@ -100,7 +97,7 @@ class SearchScreenTest {
             .assertTextEquals(expectedCardDetails.country.longitude)
 
         // check bank section
-        composeRule.onNodeWithTag(SearchScreenTags.LAZY_COLUMN)
+        composeRule.onNodeWithTag(SearchScreenTags.CARD_DETAILS_LIST)
             .performScrollToNode(hasTestTag(SearchScreenTags.BANK_CITY))
         composeRule.onNodeWithTag(SearchScreenTags.BANK_NAME)
             .assertTextEquals(expectedCardDetails.bank.name)
