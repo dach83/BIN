@@ -23,7 +23,7 @@ val visaCardDetails = CardDetails(
         longitude = "10"
     ),
     bank = BankDetails(
-        name = "Jyske Ban",
+        name = "Jyske Bank",
         url = "www.jyskebank.dk",
         phone = "+4589893300",
         city = "Hjørring"

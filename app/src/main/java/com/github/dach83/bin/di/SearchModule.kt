@@ -11,11 +11,11 @@ import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 
 val searchModule = module {
-    viewModelOf(::SearchViewModel)
-
     single<SearchRepository> { SearchRepositoryImpl(get()) }
 
     single<RequestCardDetails> { RequestCardDetailsImpl(get()) }
 
     single<ValidateCardNumber> { ValidateCardNumberImpl() }
+
+    viewModelOf(::SearchViewModel)
 }

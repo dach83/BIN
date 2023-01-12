@@ -28,25 +28,4 @@ val visaCardResponse = """
         }
 """.trimIndent()
 
-val masterCardResponse = """
-        {
-          "number": {},
-          "scheme": "mastercard",
-          "type": "credit",
-          "brand": "Standard",
-          "country": {
-            "numeric": "643",
-            "alpha2": "RU",
-            "name": "Russian Federation",
-            "emoji": "🇷🇺",
-            "currency": "RUB",
-            "latitude": 60,
-            "longitude": 100
-          },
-          "bank": {
-            "name": "VTB24",
-            "url": "www.vtb.com",
-            "phone": "(800) 100-24-24"
-          }
-        }
-""".trimIndent()
+const val errorResponse = "Not a JSON"

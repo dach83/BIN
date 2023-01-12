@@ -72,7 +72,7 @@ class SearchViewModel(
         if (exception is SearchException) {
             exception.errorMessage
         } else {
-            R.string.default_search_error_message
+            R.string.unknown_error
         }
 
     companion object {

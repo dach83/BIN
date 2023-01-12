@@ -1,15 +1,17 @@
 package com.github.dach83.bin.di
 
-import com.github.dach83.bin.feature.search.data.remote.CardDetailsApi
+import com.github.dach83.bin.feature.search.data.remote.BinLookupService
+import com.github.dach83.bin.feature.search.data.remote.RemoteDataSource
+import com.github.dach83.bin.feature.search.data.remote.RemoteDataSourceImpl
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-val remoteModule = module {
+val networkModule = module {
 
-    single<OkHttpClient> {
+    single {
         OkHttpClient.Builder()
             .addInterceptor(
                 HttpLoggingInterceptor().apply {
@@ -27,7 +29,11 @@ val remoteModule = module {
             .build()
     }
 
-    single<CardDetailsApi> {
-        get<Retrofit>().create(CardDetailsApi::class.java)
+    single<RemoteDataSource> {
+        RemoteDataSourceImpl(get())
+    }
+
+    single<BinLookupService> {
+        get<Retrofit>().create(BinLookupService::class.java)
     }
 }
