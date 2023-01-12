@@ -9,6 +9,7 @@ import com.github.dach83.bin.R
 import com.github.dach83.bin.feature.search.domain.exception.SearchException
 import com.github.dach83.bin.feature.search.domain.usecase.RequestCardDetails
 import com.github.dach83.bin.feature.search.domain.usecase.ValidateCardNumber
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -56,8 +57,9 @@ class SearchViewModel(
                 requestCardDetails(cardNumber)
             }.onSuccess { cardDetails ->
                 uiState = uiState.loaded(cardDetails)
-            }.onFailure { exception ->
-                val errorMessage = errorMessage(exception)
+            }.onFailure { cause ->
+                if (cause is CancellationException) return@launch
+                val errorMessage = errorMessage(cause)
                 uiState = uiState.error(errorMessage)
             }
         }
