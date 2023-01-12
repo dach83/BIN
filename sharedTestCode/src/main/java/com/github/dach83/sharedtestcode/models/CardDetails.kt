@@ -6,7 +6,10 @@ import com.github.dach83.bin.feature.search.domain.model.CountryDetails
 import com.github.dach83.bin.feature.search.domain.model.NumberDetails
 
 val visaCardDetails = CardDetails(
-    number = NumberDetails.EMPTY,
+    number = NumberDetails(
+        length = "16",
+        luhn = "Yes"
+    ),
     scheme = "visa",
     type = "debit",
     brand = "Visa/Dankort",
@@ -28,14 +31,11 @@ val visaCardDetails = CardDetails(
 )
 
 val masterCardDetails = CardDetails(
-    number = NumberDetails(
-        length = "16",
-        luhn = "Yes"
-    ),
+    number = NumberDetails.EMPTY,
     scheme = "mastercard",
     type = "credit",
     brand = "Standard",
-    prepaid = "No",
+    prepaid = "",
     country = CountryDetails(
         numeric = "643",
         alpha2 = "RU",
