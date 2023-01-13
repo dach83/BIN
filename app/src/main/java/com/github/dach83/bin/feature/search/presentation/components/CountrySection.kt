@@ -2,39 +2,47 @@ package com.github.dach83.bin.feature.search.presentation.components
 
 import androidx.compose.foundation.lazy.LazyListScope
 import com.github.dach83.bin.R
-import com.github.dach83.bin.core.domain.model.details.CardDetails
+import com.github.dach83.bin.core.domain.model.details.CountryDetails
 import com.github.dach83.bin.feature.search.presentation.SearchScreenTags
 
-fun LazyListScope.countrySection(cardDetails: CardDetails) {
+fun LazyListScope.countrySection(
+    countryDetails: CountryDetails,
+    openMap: (latitude: String, longitude: String) -> Unit
+) {
     listHeader(header = R.string.country_head)
     listItem(
         header = R.string.country_numeric,
-        cardDetails.country.numeric,
-        SearchScreenTags.COUNTRY_NUMERIC
+        text = countryDetails.numeric,
+        testTag = SearchScreenTags.COUNTRY_NUMERIC
     )
     listItem(
         header = R.string.country_alpha2,
-        cardDetails.country.alpha2,
-        SearchScreenTags.COUNTRY_ALPHA2
+        text = countryDetails.alpha2,
+        testTag = SearchScreenTags.COUNTRY_ALPHA2
     )
     listItem(
         header = R.string.country_name,
-        cardDetails.country.name,
-        SearchScreenTags.COUNTRY_NAME
+        text = countryDetails.name,
+        testTag = SearchScreenTags.COUNTRY_NAME
     )
     listItem(
         header = R.string.country_currency,
-        cardDetails.country.currency,
-        SearchScreenTags.COUNTRY_CURRENCY
+        text = countryDetails.currency,
+        testTag = SearchScreenTags.COUNTRY_CURRENCY
     )
+    val isValidGeo = countryDetails.latitude.isNotEmpty() && countryDetails.longitude.isNotEmpty()
     listItem(
         header = R.string.country_latitude,
-        cardDetails.country.latitude,
-        SearchScreenTags.COUNTRY_LATITUDE
+        text = countryDetails.latitude,
+        testTag = SearchScreenTags.COUNTRY_LATITUDE,
+        isActiveLink = isValidGeo,
+        onItemClick = { openMap(countryDetails.latitude, countryDetails.longitude) }
     )
     listItem(
         header = R.string.country_longitude,
-        cardDetails.country.longitude,
-        SearchScreenTags.COUNTRY_LONGITUDE
+        text = countryDetails.longitude,
+        testTag = SearchScreenTags.COUNTRY_LONGITUDE,
+        isActiveLink = isValidGeo,
+        onItemClick = { openMap(countryDetails.latitude, countryDetails.longitude) }
     )
 }

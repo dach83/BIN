@@ -9,22 +9,22 @@ fun LazyListScope.cardSection(cardDetails: CardDetails) {
     listHeader(header = R.string.card_head)
     listItem(
         header = R.string.card_scheme,
-        cardDetails.scheme,
-        SearchScreenTags.CARD_SCHEME
+        text = cardDetails.scheme,
+        testTag = SearchScreenTags.CARD_SCHEME
     )
     listItem(
         header = R.string.card_type,
-        cardDetails.type,
-        SearchScreenTags.CARD_TYPE
+        text = cardDetails.type,
+        testTag = SearchScreenTags.CARD_TYPE
     )
     listItem(
         header = R.string.card_brand,
-        cardDetails.brand,
-        SearchScreenTags.CARD_BRAND
+        text = cardDetails.brand,
+        testTag = SearchScreenTags.CARD_BRAND
     )
     listItem(
         header = R.string.card_prepaid,
-        cardDetails.prepaid,
-        SearchScreenTags.CARD_PREPAID
+        text = cardDetails.prepaid,
+        testTag = SearchScreenTags.CARD_PREPAID
     )
 }
