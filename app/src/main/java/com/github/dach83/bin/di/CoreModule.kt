@@ -10,7 +10,7 @@ import org.koin.dsl.module
 
 val coreModule = module {
 
-    single<LocalCardDataSource> { LocalCardDataSourceImpl() }
+    single<LocalCardDataSource> { LocalCardDataSourceImpl(get()) }
 
     single<RemoteCardDataSource> { RemoteCardDataSourceImpl(get()) }
 

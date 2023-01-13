@@ -7,9 +7,9 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-val networkModule = module {
+val retrofitModule = module {
 
-    single {
+    single<OkHttpClient> {
         OkHttpClient.Builder()
             .addInterceptor(
                 HttpLoggingInterceptor().apply {

@@ -75,7 +75,7 @@ class RemoteCardDataSourceImplTest {
     }
 
     @Test(expected = BinException::class)
-    fun `incorrect response throw error`() = runTest {
+    fun `incorrect response throw BinException`() = runTest {
         // arrange
         val response = MockResponse()
             .setBody(errorResponse)
@@ -88,7 +88,7 @@ class RemoteCardDataSourceImplTest {
     }
 
     @Test(expected = BinException::class)
-    fun `error response throw error`() = runTest {
+    fun `error response throw BinException`() = runTest {
         // arrange
         val response = MockResponse()
             .setBody(errorResponse)

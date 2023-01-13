@@ -23,17 +23,17 @@ class RemoteCardDataSourceImpl(private val service: BinLookupService) : RemoteCa
     }
 
     private fun Response<CardDto>.toCardDetails(): CardDetails = if (isSuccessful) {
-        toCardDetailsIfSuccess()
+        cardDetailsIfSuccess()
     } else {
-        toCardDetailsIfError()
+        cardDetailsIfHttpError()
     }
 
-    private fun Response<CardDto>.toCardDetailsIfSuccess(): CardDetails {
+    private fun Response<CardDto>.cardDetailsIfSuccess(): CardDetails {
         val cardDto = body()
-        return cardDto?.toCardDetails() ?: CardDetails.EMPTY
+        return cardDto.toCardDetails()
     }
 
-    private fun Response<CardDto>.toCardDetailsIfError(): CardDetails = when (code()) {
+    private fun Response<CardDto>.cardDetailsIfHttpError(): CardDetails = when (code()) {
         NO_MATCHING_CARD -> CardDetails.EMPTY
 
         TOO_MANY_REQUEST -> throw BinException(

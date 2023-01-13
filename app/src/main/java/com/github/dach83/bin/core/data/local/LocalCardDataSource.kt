@@ -6,5 +6,4 @@ interface LocalCardDataSource {
     suspend fun contains(cardNumber: String): Boolean
     suspend fun saveCard(cardNumber: String, cardDetails: CardDetails)
     suspend fun cardDetails(cardNumber: String): CardDetails
-    suspend fun cardNumberList(): List<String>
 }
