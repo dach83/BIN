@@ -9,9 +9,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CardDao {
-    @Query("SELECT EXISTS(SELECT * FROM card WHERE cardNumber = :cardNumber)")
-    suspend fun contains(cardNumber: String): Boolean
-
     @Query("SELECT * FROM card ORDER BY saveTime DESC")
     fun searchHistory(): Flow<List<CardEntity>>
 

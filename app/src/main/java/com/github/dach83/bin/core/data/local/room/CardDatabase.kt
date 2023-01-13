@@ -4,7 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.github.dach83.bin.core.data.local.room.entity.CardEntity
 
-@Database(entities = [CardEntity::class], version = 1)
+@Database(entities = [CardEntity::class], version = 2)
 abstract class CardDatabase : RoomDatabase() {
     abstract fun cardDao(): CardDao
 }

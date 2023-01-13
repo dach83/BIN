@@ -7,6 +7,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import com.github.dach83.bin.core.presentation.navigation.TabItem
+import com.github.dach83.bin.core.presentation.navigation.TabsBar
 import com.github.dach83.bin.core.presentation.navigation.TabsContent
 
 private val navigationTabs = listOf(

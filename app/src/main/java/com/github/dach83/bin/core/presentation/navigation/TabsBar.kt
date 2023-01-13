@@ -1,4 +1,4 @@
-package com.github.dach83.bin.core.presentation
+package com.github.dach83.bin.core.presentation.navigation
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LeadingIconTab
@@ -6,7 +6,6 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import com.github.dach83.bin.core.presentation.navigation.TabItem
 
 @Composable
 fun TabsBar(

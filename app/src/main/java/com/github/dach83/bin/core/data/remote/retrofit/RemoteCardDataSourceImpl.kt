@@ -17,7 +17,7 @@ class RemoteCardDataSourceImpl(private val service: BinLookupService) : RemoteCa
         val response = service.lookup(cardNumber)
         response.toCardDetails()
     } catch (cause: JsonDataException) {
-        throw BinException(R.string.binlookup_unknown_response, cause)
+        throw BinException(R.string.unknown_response_format, cause)
     } catch (cause: UnknownHostException) {
         throw BinException(R.string.no_internet, cause)
     }
@@ -32,17 +32,17 @@ class RemoteCardDataSourceImpl(private val service: BinLookupService) : RemoteCa
     private fun Response<CardDto>.throwBinException(): Nothing {
         when (code()) {
             NO_MATCHING_CARD -> throw BinException(
-                R.string.binlookup_no_matching_card,
+                R.string.no_matching_card,
                 HttpException(this)
             )
 
             TOO_MANY_REQUEST -> throw BinException(
-                R.string.binlookup_too_many_request,
+                R.string.too_many_request,
                 HttpException(this)
             )
 
             else -> throw BinException(
-                R.string.binlookup_is_unavailable,
+                R.string.service_is_unavailable,
                 HttpException(this)
             )
         }

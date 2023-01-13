@@ -1,3 +1,3 @@
 package com.github.dach83.sharedtestcode.models
 
-const val SEARCH_ERROR_MESSAGE = 777
+const val ERROR_MESSAGE = 777

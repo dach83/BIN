@@ -52,7 +52,7 @@ val masterCardDetails = CardDetails(
     )
 )
 
-// Default values that the user should see on the screen
+// This is how empty data should be displayed on the screen
 val emptyCardDetailsOnScreen = CardDetails(
     number = NumberDetails(
         length = "?",

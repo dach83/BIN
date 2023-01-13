@@ -13,6 +13,6 @@ class HistoryViewModel(
     val queries = searchHistory().stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = listOf()
+        initialValue = emptyList()
     )
 }

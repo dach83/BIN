@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.dach83.bin.core.domain.exception.BinException
+import com.github.dach83.bin.core.domain.model.CardQuery
 import com.github.dach83.bin.feature.search.domain.usecase.LoadCardDetails
 import com.github.dach83.bin.feature.search.domain.usecase.UpdateSearchHistory
 import com.github.dach83.bin.feature.search.domain.usecase.ValidateCardNumber
@@ -64,8 +65,10 @@ class SearchViewModel(
         delay(WAIT_USER_INPUT_BEFORE_SEND_NETWORK_REQUEST)
         val cardDetails = loadCardDetails(cardNumber)
         uiState = uiState.loaded(cardDetails)
+
         delay(WAIT_USER_INPUT_BEFORE_UPDATE_SEARCH_HISTORY)
-        updateSearchHistory(cardNumber)
+        val cardQuery = CardQuery(cardNumber)
+        updateSearchHistory(cardQuery)
     }
 
     companion object {

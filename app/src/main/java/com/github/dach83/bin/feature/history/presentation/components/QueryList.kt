@@ -7,7 +7,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.github.dach83.bin.core.domain.model.query.CardQuery
+import com.github.dach83.bin.core.domain.model.CardQuery
 
 @Composable
 fun QueryList(
