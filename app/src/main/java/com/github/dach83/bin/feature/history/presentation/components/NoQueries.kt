@@ -13,7 +13,7 @@ import androidx.compose.ui.text.style.TextAlign
 import com.github.dach83.bin.R
 
 @Composable
-fun EmptyHistory() {
+fun NoQueries() {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center

@@ -1,7 +1,7 @@
 package com.github.dach83.sharedtestcode.fake
 
 import com.github.dach83.bin.core.domain.model.details.CardDetails
-import com.github.dach83.bin.core.domain.model.history.CardQuery
+import com.github.dach83.bin.core.domain.model.query.CardQuery
 import com.github.dach83.bin.core.domain.repository.CardRepository
 import com.github.dach83.sharedtestcode.models.CardNumbers
 import com.github.dach83.sharedtestcode.models.masterCardDetails

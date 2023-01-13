@@ -10,11 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.github.dach83.bin.core.domain.model.history.CardQuery
+import com.github.dach83.bin.core.domain.model.query.CardQuery
 import com.github.dach83.bin.feature.search.presentation.components.formatCardNumber
 
 @Composable
-fun HistoryItem(
+fun QueryItem(
     item: CardQuery,
     onItemClick: (CardQuery) -> Unit
 ) {

@@ -7,10 +7,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.github.dach83.bin.core.domain.model.history.CardQuery
+import com.github.dach83.bin.core.domain.model.query.CardQuery
 
 @Composable
-fun HistoryList(
+fun QueryList(
     items: List<CardQuery>,
     onItemClick: (CardQuery) -> Unit
 ) {
@@ -20,7 +20,7 @@ fun HistoryList(
             .padding(16.dp)
     ) {
         items(items) { item ->
-            HistoryItem(
+            QueryItem(
                 item = item,
                 onItemClick = onItemClick
             )

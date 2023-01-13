@@ -4,7 +4,7 @@ import com.github.dach83.bin.core.data.local.LocalCardDataSource
 import com.github.dach83.bin.core.data.local.room.entity.CardEntity
 import com.github.dach83.bin.core.data.local.room.mapper.toCardQuery
 import com.github.dach83.bin.core.domain.model.details.CardDetails
-import com.github.dach83.bin.core.domain.model.history.CardQuery
+import com.github.dach83.bin.core.domain.model.query.CardQuery
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
