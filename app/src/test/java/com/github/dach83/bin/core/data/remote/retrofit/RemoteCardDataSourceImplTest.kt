@@ -1,11 +1,8 @@
-package com.github.dach83.bin.core.data.remote
+package com.github.dach83.bin.core.data.remote.retrofit
 
 import com.github.dach83.bin.core.domain.exception.BinException
 import com.github.dach83.bin.core.domain.model.CardDetails
-import com.github.dach83.sharedtestcode.models.VISA_CARD_NUMBER
-import com.github.dach83.sharedtestcode.models.errorResponse
-import com.github.dach83.sharedtestcode.models.visaCardDetails
-import com.github.dach83.sharedtestcode.models.visaCardResponse
+import com.github.dach83.sharedtestcode.models.*
 import com.google.common.truth.Truth.assertThat
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -54,7 +51,7 @@ class RemoteCardDataSourceImplTest {
         val expected = visaCardDetails
 
         // act
-        val actual = sut.cardDetails(VISA_CARD_NUMBER)
+        val actual = sut.cardDetails(CardNumbers.VISA)
 
         // assert
         assertThat(actual).isEqualTo(expected)
@@ -71,7 +68,7 @@ class RemoteCardDataSourceImplTest {
         val expected = CardDetails.EMPTY
 
         // act
-        val actual = sut.cardDetails(VISA_CARD_NUMBER)
+        val actual = sut.cardDetails(CardNumbers.VISA)
 
         // assert
         assertThat(actual).isEqualTo(expected)
@@ -87,7 +84,7 @@ class RemoteCardDataSourceImplTest {
         val sut = RemoteCardDataSourceImpl(service)
 
         // act
-        sut.cardDetails(VISA_CARD_NUMBER)
+        sut.cardDetails(CardNumbers.VISA)
     }
 
     @Test(expected = BinException::class)
@@ -100,6 +97,6 @@ class RemoteCardDataSourceImplTest {
         val sut = RemoteCardDataSourceImpl(service)
 
         // act
-        sut.cardDetails(VISA_CARD_NUMBER)
+        sut.cardDetails(CardNumbers.VISA)
     }
 }

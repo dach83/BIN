@@ -1,5 +1,6 @@
-package com.github.dach83.bin.core.data.local
+package com.github.dach83.bin.core.data.local.room
 
+import com.github.dach83.bin.core.data.local.LocalCardDataSource
 import com.github.dach83.bin.core.domain.model.CardDetails
 
 class LocalCardDataSourceImpl : LocalCardDataSource {

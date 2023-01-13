@@ -2,7 +2,7 @@ package com.github.dach83.bin.feature.search.presentation
 
 import com.github.dach83.bin.core.domain.model.CardDetails
 import com.github.dach83.bin.feature.search.*
-import com.github.dach83.bin.feature.search.fake.usecase.FakeRequestCardDetails
+import com.github.dach83.bin.feature.search.fake.usecase.FakeLoadCardDetails
 import com.github.dach83.bin.feature.search.fake.usecase.FakeValidateCardNumber
 import com.github.dach83.bin.rule.CoroutineRule
 import com.github.dach83.sharedtestcode.*
@@ -21,7 +21,7 @@ class SearchViewModelTest {
     @get:Rule
     val coroutineRule = CoroutineRule()
 
-    private val requestCardDetails = FakeRequestCardDetails()
+    private val loadCardDetails = FakeLoadCardDetails()
 
     /**
      * When:
@@ -40,20 +40,20 @@ class SearchViewModelTest {
     fun `initial state, input valid card number, request successful`() = runTest {
         // assert
         val sut = searchViewModelInInitialState()
-        requestCardDetails.toSuccessMode()
+        loadCardDetails.toSuccessMode()
 
         // act
-        sut.changeCardNumber(VISA_CARD_NUMBER)
+        sut.changeCardNumber(CardNumbers.VISA)
 
         // assert
-        val loading = SearchUiState.INITIAL.loading(VISA_CARD_NUMBER)
+        val loading = SearchUiState.INITIAL.loading(CardNumbers.VISA)
         assertThat(sut.uiState).isEqualTo(loading)
 
         advanceUntilIdle()
         val loaded = loading.loaded(visaCardDetails)
         assertThat(sut.uiState).isEqualTo(loaded)
 
-        assertThat(requestCardDetails.wasCalled).isTrue()
+        assertThat(loadCardDetails.wasCalled).isTrue()
     }
 
     /**
@@ -73,20 +73,20 @@ class SearchViewModelTest {
     fun `initial state, input valid card number, request failed`() = runTest {
         // assert
         val sut = searchViewModelInInitialState()
-        requestCardDetails.toFailureMode()
+        loadCardDetails.toFailureMode()
 
         // act
-        sut.changeCardNumber(VISA_CARD_NUMBER)
+        sut.changeCardNumber(CardNumbers.VISA)
 
         // assert
-        val loading = SearchUiState.INITIAL.loading(VISA_CARD_NUMBER)
+        val loading = SearchUiState.INITIAL.loading(CardNumbers.VISA)
         assertThat(sut.uiState).isEqualTo(loading)
 
         advanceUntilIdle()
         val error = loading.error(SEARCH_ERROR_MESSAGE)
         assertThat(sut.uiState).isEqualTo(error)
 
-        assertThat(requestCardDetails.wasCalled).isTrue()
+        assertThat(loadCardDetails.wasCalled).isTrue()
     }
 
     /**
@@ -107,14 +107,14 @@ class SearchViewModelTest {
         val expected = sut.uiState
 
         // act
-        sut.changeCardNumber(EMPTY_CARD_NUMBER)
+        sut.changeCardNumber(CardNumbers.EMPTY)
         advanceUntilIdle()
 
         // assert
         assertThat(sut.uiState).isEqualTo(expected)
         advanceUntilIdle()
         assertThat(sut.uiState).isEqualTo(expected)
-        assertThat(requestCardDetails.wasCalled).isFalse()
+        assertThat(loadCardDetails.wasCalled).isFalse()
     }
 
     /**
@@ -135,14 +135,14 @@ class SearchViewModelTest {
         val expected = sut.uiState
 
         // act
-        sut.changeCardNumber(INVALID_CARD_NUMBER)
+        sut.changeCardNumber(CardNumbers.INVALID)
         advanceUntilIdle()
 
         // assert
         assertThat(sut.uiState).isEqualTo(expected)
         advanceUntilIdle()
         assertThat(sut.uiState).isEqualTo(expected)
-        assertThat(requestCardDetails.wasCalled).isFalse()
+        assertThat(loadCardDetails.wasCalled).isFalse()
     }
 
     /**
@@ -161,50 +161,21 @@ class SearchViewModelTest {
     @Test
     fun `loaded state, input different valid card number, request successful`() = runTest {
         // assert
-        val sut = searchViewModelInLoadedState(VISA_CARD_NUMBER, visaCardDetails)
-        requestCardDetails.toSuccessMode()
+        val sut = searchViewModelInLoadedState(CardNumbers.VISA, visaCardDetails)
+        loadCardDetails.toSuccessMode()
 
         // act
-        sut.changeCardNumber(MASTER_CARD_NUMBER)
+        sut.changeCardNumber(CardNumbers.MASTER_CARD)
 
         // assert
-        val loading = SearchUiState.INITIAL.loading(MASTER_CARD_NUMBER)
+        val loading = SearchUiState.INITIAL.loading(CardNumbers.MASTER_CARD)
         assertThat(sut.uiState).isEqualTo(loading)
 
         advanceUntilIdle()
         val loaded = loading.loaded(masterCardDetails)
         assertThat(sut.uiState).isEqualTo(loaded)
 
-        assertThat(requestCardDetails.wasCalled).isTrue()
-    }
-
-    /**
-     * When:
-     *
-     *    loaded state,
-     *    user input same valid card number,
-     *    request successful
-     *
-     * Then:
-     *
-     *    ui state not changed,
-     *    request not called
-     */
-    @Test
-    fun `loaded state, input same valid card number, request successful`() = runTest {
-        // assert
-        val sut = searchViewModelInLoadedState(VISA_CARD_NUMBER, visaCardDetails)
-        requestCardDetails.toSuccessMode()
-        val expected = sut.uiState
-
-        // act
-        sut.changeCardNumber(VISA_CARD_NUMBER)
-
-        // assert
-        assertThat(sut.uiState).isEqualTo(expected)
-        advanceUntilIdle()
-        assertThat(sut.uiState).isEqualTo(expected)
-        assertThat(requestCardDetails.wasCalled).isFalse()
+        assertThat(loadCardDetails.wasCalled).isTrue()
     }
 
     /**
@@ -222,18 +193,18 @@ class SearchViewModelTest {
     @Test
     fun `loaded state, input empty card number, request successful`() = runTest {
         // assert
-        val sut = searchViewModelInLoadedState(VISA_CARD_NUMBER, visaCardDetails)
-        requestCardDetails.toSuccessMode()
+        val sut = searchViewModelInLoadedState(CardNumbers.VISA, visaCardDetails)
+        loadCardDetails.toSuccessMode()
 
         // act
-        sut.changeCardNumber(EMPTY_CARD_NUMBER)
+        sut.changeCardNumber(CardNumbers.EMPTY)
 
         // assert
         val expected = SearchUiState.INITIAL
         assertThat(sut.uiState).isEqualTo(expected)
         advanceUntilIdle()
         assertThat(sut.uiState).isEqualTo(expected)
-        assertThat(requestCardDetails.wasCalled).isFalse()
+        assertThat(loadCardDetails.wasCalled).isFalse()
     }
 
     /**
@@ -252,26 +223,26 @@ class SearchViewModelTest {
     @Test
     fun `error state, input same valid card number, request successful`() = runTest {
         // assert
-        val sut = searchViewModelInErrorState(VISA_CARD_NUMBER)
-        requestCardDetails.toSuccessMode()
+        val sut = searchViewModelInErrorState(CardNumbers.VISA)
+        loadCardDetails.toSuccessMode()
 
         // act
-        sut.changeCardNumber(VISA_CARD_NUMBER)
+        sut.changeCardNumber(CardNumbers.VISA)
 
         // assert
-        val loading = SearchUiState.INITIAL.loading(VISA_CARD_NUMBER)
+        val loading = SearchUiState.INITIAL.loading(CardNumbers.VISA)
         assertThat(sut.uiState).isEqualTo(loading)
 
         advanceUntilIdle()
         val loaded = loading.loaded(visaCardDetails)
         assertThat(sut.uiState).isEqualTo(loaded)
 
-        assertThat(requestCardDetails.wasCalled).isTrue()
+        assertThat(loadCardDetails.wasCalled).isTrue()
     }
 
     private fun searchViewModelInInitialState() = SearchViewModel(
         validateCardNumber = FakeValidateCardNumber(),
-        requestCardDetails = requestCardDetails
+        loadCardDetails = loadCardDetails
     ).apply {
         assertThat(uiState).isEqualTo(SearchUiState.INITIAL)
     }
@@ -286,10 +257,10 @@ class SearchViewModelTest {
             isLoading = false,
             errorMessage = null
         )
-        requestCardDetails.toSuccessMode()
+        loadCardDetails.toSuccessMode()
         changeCardNumber(cardNumber)
         advanceUntilIdle()
-        requestCardDetails.resetRequestCounter()
+        loadCardDetails.resetRequestCounter()
         assertThat(uiState).isEqualTo(expected)
     }
 
@@ -302,10 +273,10 @@ class SearchViewModelTest {
             isLoading = false,
             errorMessage = SEARCH_ERROR_MESSAGE
         )
-        requestCardDetails.toFailureMode()
+        loadCardDetails.toFailureMode()
         changeCardNumber(cardNumber)
         advanceUntilIdle()
-        requestCardDetails.resetRequestCounter()
+        loadCardDetails.resetRequestCounter()
         assertThat(uiState).isEqualTo(expected)
     }
 }

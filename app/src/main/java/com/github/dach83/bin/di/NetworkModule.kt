@@ -1,6 +1,6 @@
 package com.github.dach83.bin.di
 
-import com.github.dach83.bin.core.data.remote.BinLookupService
+import com.github.dach83.bin.core.data.remote.retrofit.BinLookupService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module

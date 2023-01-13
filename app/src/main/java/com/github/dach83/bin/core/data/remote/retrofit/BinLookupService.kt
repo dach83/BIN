@@ -1,6 +1,6 @@
-package com.github.dach83.bin.core.data.remote
+package com.github.dach83.bin.core.data.remote.retrofit
 
-import com.github.dach83.bin.core.data.remote.dto.CardDto
+import com.github.dach83.bin.core.data.remote.retrofit.dto.CardDto
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

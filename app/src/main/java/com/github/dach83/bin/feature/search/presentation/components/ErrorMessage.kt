@@ -20,5 +20,6 @@ fun ErrorMessage(uiState: SearchUiState) = Box {
             style = MaterialTheme.typography.bodySmall,
             modifier = Modifier.testTag(SearchScreenTags.ERROR_MESSAGE)
         )
+        // TODO: Try again button
     }
 }

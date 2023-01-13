@@ -7,7 +7,7 @@ data class SearchUiState(
     val cardNumber: String,
     val cardDetails: CardDetails,
     val isLoading: Boolean,
-    @StringRes val errorMessage: Int?
+    @StringRes val errorMessage: Int? = null
 ) {
 
     fun loading(cardNumber: String) = copy(

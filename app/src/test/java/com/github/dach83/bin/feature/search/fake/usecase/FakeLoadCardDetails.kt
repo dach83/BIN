@@ -2,10 +2,10 @@ package com.github.dach83.bin.feature.search.fake.usecase
 
 import com.github.dach83.bin.core.domain.exception.BinException
 import com.github.dach83.bin.core.domain.model.CardDetails
-import com.github.dach83.bin.feature.search.domain.usecase.RequestCardDetails
+import com.github.dach83.bin.feature.search.domain.usecase.LoadCardDetails
 import com.github.dach83.sharedtestcode.models.*
 
-class FakeRequestCardDetails : RequestCardDetails {
+class FakeLoadCardDetails : LoadCardDetails {
 
     var wasCalled: Boolean = false
         private set
@@ -16,8 +16,8 @@ class FakeRequestCardDetails : RequestCardDetails {
         wasCalled = true
         requestException?.let { throw it }
         return when (cardNumber) {
-            VISA_CARD_NUMBER -> visaCardDetails
-            MASTER_CARD_NUMBER -> masterCardDetails
+            CardNumbers.VISA -> visaCardDetails
+            CardNumbers.MASTER_CARD -> masterCardDetails
             else -> throw IllegalStateException()
         }
     }

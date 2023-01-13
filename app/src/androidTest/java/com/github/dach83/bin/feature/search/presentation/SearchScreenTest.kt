@@ -15,12 +15,12 @@ class SearchScreenTest {
     @Test
     fun input_empty_card_number_displays_empty_card_details() {
         // arrange
-        val expectedCardNumber = EMPTY_CARD_NUMBER
+        val expectedCardNumber = CardNumbers.EMPTY
         val expectedCardDetails = emptyCardDetailsOnScreen
 
         // act
         launchSearchScreen()
-        inputCardNumber(EMPTY_CARD_NUMBER)
+        inputCardNumber(CardNumbers.EMPTY)
 
         // assert
         assertSearchScreen(expectedCardNumber, expectedCardDetails)
@@ -29,12 +29,12 @@ class SearchScreenTest {
     @Test
     fun input_correct_card_number_displays_correct_card_details() {
         // arrange
-        val expectedCardNumber = VISA_CARD_NUMBER_FORMATTED
+        val expectedCardNumber = CardNumbers.VISA_FORMATTED
         val expectedCardDetails = visaCardDetails
 
         // act
         launchSearchScreen()
-        inputCardNumber(VISA_CARD_NUMBER)
+        inputCardNumber(CardNumbers.VISA)
 
         // assert
         assertSearchScreen(expectedCardNumber, expectedCardDetails)
