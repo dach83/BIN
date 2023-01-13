@@ -42,7 +42,7 @@ class SearchScreenTest {
 
     private fun launchSearchScreen() {
         composeRule.setContent {
-            SearchScreen()
+            SearchScreen(CardNumbers.EMPTY)
         }
     }
 

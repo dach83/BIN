@@ -20,6 +20,7 @@ fun HistoryItem(
 ) {
     BasicTextField(
         value = item.cardNumber,
+        enabled = false,
         textStyle = MaterialTheme.typography.titleLarge,
         onValueChange = {},
         visualTransformation = {

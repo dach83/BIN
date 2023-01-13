@@ -2,9 +2,9 @@ package com.github.dach83.bin.feature.search.presentation
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.github.dach83.bin.feature.search.domain.usecase.ValidateCardNumber
 import com.github.dach83.bin.feature.search.presentation.components.CardDetailsList
 import com.github.dach83.bin.feature.search.presentation.components.CardNumberEdit
 import com.github.dach83.bin.feature.search.presentation.components.ErrorMessage
@@ -16,6 +16,10 @@ fun SearchScreen(
     cardNumber: String,
     viewModel: SearchViewModel = koinViewModel()
 ) {
+    LaunchedEffect(key1 = cardNumber) {
+        viewModel.changeCardNumber(cardNumber)
+    }
+
     val uiState = viewModel.uiState
     Column(
         modifier = Modifier.padding(16.dp)
