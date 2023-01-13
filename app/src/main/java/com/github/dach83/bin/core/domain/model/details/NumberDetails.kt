@@ -1,4 +1,4 @@
-package com.github.dach83.bin.core.domain.model
+package com.github.dach83.bin.core.domain.model.details
 
 data class NumberDetails(
     val length: String,

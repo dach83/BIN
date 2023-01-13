@@ -1,7 +1,7 @@
 package com.github.dach83.bin.core.data.remote.retrofit.mapper
 
 import com.github.dach83.bin.core.data.remote.retrofit.dto.NumberDto
-import com.github.dach83.bin.core.domain.model.NumberDetails
+import com.github.dach83.bin.core.domain.model.details.NumberDetails
 
 fun NumberDto?.toNumberDetails() = if (this == null) {
     NumberDetails.EMPTY

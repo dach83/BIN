@@ -1,23 +1,24 @@
 package com.github.dach83.bin.core.presentation.navigation
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.pager.PagerState
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LeadingIconTab
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.res.stringResource
-import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun Tabs(tabs: List<TabItem>, pagerState: PagerState) {
-    val scope = rememberCoroutineScope()
+fun TabsBar(
+    tabs: List<TabItem>,
+    selectedTabIndex: Int,
+    onTabClick: (Int) -> Unit
+) {
     TabRow(
-        selectedTabIndex = pagerState.currentPage
+        selectedTabIndex = selectedTabIndex
     ) {
         tabs.forEachIndexed { index, tabItem ->
             LeadingIconTab(
-                selected = pagerState.currentPage == index,
+                selected = selectedTabIndex == index,
                 icon = {
                     Icon(
                         imageVector = tabItem.icon,
@@ -28,9 +29,7 @@ fun Tabs(tabs: List<TabItem>, pagerState: PagerState) {
                     Text(text = stringResource(id = tabItem.title))
                 },
                 onClick = {
-                    scope.launch {
-                        pagerState.animateScrollToPage(index)
-                    }
+                    onTabClick(index)
                 }
             )
         }

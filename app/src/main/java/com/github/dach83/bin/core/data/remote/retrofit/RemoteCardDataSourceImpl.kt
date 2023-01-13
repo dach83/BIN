@@ -5,7 +5,7 @@ import com.github.dach83.bin.core.data.remote.RemoteCardDataSource
 import com.github.dach83.bin.core.data.remote.retrofit.dto.CardDto
 import com.github.dach83.bin.core.data.remote.retrofit.mapper.toCardDetails
 import com.github.dach83.bin.core.domain.exception.BinException
-import com.github.dach83.bin.core.domain.model.CardDetails
+import com.github.dach83.bin.core.domain.model.details.CardDetails
 import com.squareup.moshi.JsonDataException
 import retrofit2.HttpException
 import retrofit2.Response
@@ -23,28 +23,29 @@ class RemoteCardDataSourceImpl(private val service: BinLookupService) : RemoteCa
     }
 
     private fun Response<CardDto>.toCardDetails(): CardDetails = if (isSuccessful) {
-        cardDetailsIfSuccess()
-    } else {
-        cardDetailsIfHttpError()
-    }
-
-    private fun Response<CardDto>.cardDetailsIfSuccess(): CardDetails {
         val cardDto = body()
-        return cardDto.toCardDetails()
+        cardDto.toCardDetails()
+    } else {
+        throwBinException()
     }
 
-    private fun Response<CardDto>.cardDetailsIfHttpError(): CardDetails = when (code()) {
-        NO_MATCHING_CARD -> CardDetails.EMPTY
+    private fun Response<CardDto>.throwBinException(): Nothing {
+        when (code()) {
+            NO_MATCHING_CARD -> throw BinException(
+                R.string.binlookup_no_matching_card,
+                HttpException(this)
+            )
 
-        TOO_MANY_REQUEST -> throw BinException(
-            R.string.binlookup_too_many_request,
-            HttpException(this)
-        )
+            TOO_MANY_REQUEST -> throw BinException(
+                R.string.binlookup_too_many_request,
+                HttpException(this)
+            )
 
-        else -> throw BinException(
-            R.string.binlookup_is_unavailable,
-            HttpException(this)
-        )
+            else -> throw BinException(
+                R.string.binlookup_is_unavailable,
+                HttpException(this)
+            )
+        }
     }
 
     companion object {

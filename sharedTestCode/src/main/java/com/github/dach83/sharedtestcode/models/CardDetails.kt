@@ -1,9 +1,9 @@
 package com.github.dach83.sharedtestcode.models
 
-import com.github.dach83.bin.core.domain.model.BankDetails
-import com.github.dach83.bin.core.domain.model.CardDetails
-import com.github.dach83.bin.core.domain.model.CountryDetails
-import com.github.dach83.bin.core.domain.model.NumberDetails
+import com.github.dach83.bin.core.domain.model.details.BankDetails
+import com.github.dach83.bin.core.domain.model.details.CardDetails
+import com.github.dach83.bin.core.domain.model.details.CountryDetails
+import com.github.dach83.bin.core.domain.model.details.NumberDetails
 
 val visaCardDetails = CardDetails(
     number = NumberDetails(

@@ -7,6 +7,7 @@ val appModule = module {
         roomModule,
         retrofitModule,
         coreModule,
-        searchModule
+        searchModule,
+        historyModule
     )
 }

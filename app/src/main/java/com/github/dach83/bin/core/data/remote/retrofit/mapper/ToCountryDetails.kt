@@ -1,7 +1,7 @@
 package com.github.dach83.bin.core.data.remote.retrofit.mapper
 
 import com.github.dach83.bin.core.data.remote.retrofit.dto.CountryDto
-import com.github.dach83.bin.core.domain.model.CountryDetails
+import com.github.dach83.bin.core.domain.model.details.CountryDetails
 
 fun CountryDto?.toCountryDetails() = if (this == null) {
     CountryDetails.EMPTY

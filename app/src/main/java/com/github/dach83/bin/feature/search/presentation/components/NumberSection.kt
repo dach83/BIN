@@ -2,7 +2,7 @@ package com.github.dach83.bin.feature.search.presentation.components
 
 import androidx.compose.foundation.lazy.LazyListScope
 import com.github.dach83.bin.R
-import com.github.dach83.bin.core.domain.model.CardDetails
+import com.github.dach83.bin.core.domain.model.details.CardDetails
 import com.github.dach83.bin.feature.search.presentation.SearchScreenTags
 
 fun LazyListScope.numberSection(cardDetails: CardDetails) {

@@ -2,7 +2,7 @@ package com.github.dach83.bin.feature.search.presentation
 
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
-import com.github.dach83.bin.core.domain.model.CardDetails
+import com.github.dach83.bin.core.domain.model.details.CardDetails
 import com.github.dach83.sharedtestcode.models.*
 import org.junit.Rule
 import org.junit.Test

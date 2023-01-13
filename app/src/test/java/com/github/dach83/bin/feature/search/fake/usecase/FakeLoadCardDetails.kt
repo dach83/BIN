@@ -1,7 +1,7 @@
 package com.github.dach83.bin.feature.search.fake.usecase
 
 import com.github.dach83.bin.core.domain.exception.BinException
-import com.github.dach83.bin.core.domain.model.CardDetails
+import com.github.dach83.bin.core.domain.model.details.CardDetails
 import com.github.dach83.bin.feature.search.domain.usecase.LoadCardDetails
 import com.github.dach83.sharedtestcode.models.*
 

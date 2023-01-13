@@ -1,8 +1,9 @@
 package com.github.dach83.bin.feature.search.presentation
 
-import com.github.dach83.bin.core.domain.model.CardDetails
+import com.github.dach83.bin.core.domain.model.details.CardDetails
 import com.github.dach83.bin.feature.search.*
 import com.github.dach83.bin.feature.search.fake.usecase.FakeLoadCardDetails
+import com.github.dach83.bin.feature.search.fake.usecase.FakeUpdateSearchHistory
 import com.github.dach83.bin.feature.search.fake.usecase.FakeValidateCardNumber
 import com.github.dach83.bin.rule.CoroutineRule
 import com.github.dach83.sharedtestcode.*
@@ -242,7 +243,8 @@ class SearchViewModelTest {
 
     private fun searchViewModelInInitialState() = SearchViewModel(
         validateCardNumber = FakeValidateCardNumber(),
-        loadCardDetails = loadCardDetails
+        loadCardDetails = loadCardDetails,
+        updateSearchHistory = FakeUpdateSearchHistory()
     ).apply {
         assertThat(uiState).isEqualTo(SearchUiState.INITIAL)
     }

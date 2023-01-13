@@ -26,10 +26,12 @@
     <string name="bank_url">Url</string>
     <string name="bank_phone">Phone</string>
     <string name="bank_city">City</string>
+    <!--  History screen  -->
+    <string name="no_search_yet">You haven\'t success search yet</string>
     <!--  Error messages  -->
     <string name="no_internet">No internet connection</string>
-    <string name="binlookup_too_many_request">Hit request limit to BinLookup service</string>
-    <string name="binlookup_is_unavailable">BinLookup service is unavailable</string>
-    <string name="binlookup_unknown_response">Unknown format BinLookup service response</string>
-
+    <string name="binlookup_too_many_request">Too many request</string>
+    <string name="binlookup_is_unavailable">Service is unavailable</string>
+    <string name="binlookup_unknown_response">Unknown response format</string>
+    <string name="binlookup_no_matching_card">No matching card</string>
 </resources>

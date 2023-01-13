@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.dach83.bin.core.domain.exception.BinException
 import com.github.dach83.bin.feature.search.domain.usecase.LoadCardDetails
+import com.github.dach83.bin.feature.search.domain.usecase.UpdateSearchHistory
 import com.github.dach83.bin.feature.search.domain.usecase.ValidateCardNumber
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -14,7 +15,8 @@ import kotlinx.coroutines.launch
 
 class SearchViewModel(
     private val validateCardNumber: ValidateCardNumber,
-    private val loadCardDetails: LoadCardDetails
+    private val loadCardDetails: LoadCardDetails,
+    private val updateSearchHistory: UpdateSearchHistory
 ) : ViewModel() {
 
     var uiState by mutableStateOf(SearchUiState.INITIAL)
@@ -49,18 +51,25 @@ class SearchViewModel(
     }
 
     private suspend fun requestCardDetails(cardNumber: String) = try {
-        delay(WAIT_USER_INPUT_BEFORE_LOAD)
-        val cardDetails = loadCardDetails(cardNumber)
-        uiState = uiState.loaded(cardDetails)
+        loadCardDetailsAndUpdateHistory(cardNumber)
     } catch (error: BinException) {
-        // All incoming errors should be wrapped in a BinException.
+        // All errors should be wrapped in a BinException.
         // If we catch another exception, then some unexpected problem
         // has been occurred. In this case, we let the application crash.
         // The sooner we detect the problem, the sooner we can handle it properly.
         uiState = uiState.error(error.friendlyMessage)
     }
 
+    private suspend fun loadCardDetailsAndUpdateHistory(cardNumber: String) {
+        delay(WAIT_USER_INPUT_BEFORE_SEND_NETWORK_REQUEST)
+        val cardDetails = loadCardDetails(cardNumber)
+        uiState = uiState.loaded(cardDetails)
+        delay(WAIT_USER_INPUT_BEFORE_UPDATE_SEARCH_HISTORY)
+        updateSearchHistory(cardNumber)
+    }
+
     companion object {
-        const val WAIT_USER_INPUT_BEFORE_LOAD = 500L
+        const val WAIT_USER_INPUT_BEFORE_SEND_NETWORK_REQUEST = 500L
+        const val WAIT_USER_INPUT_BEFORE_UPDATE_SEARCH_HISTORY = 1_000L
     }
 }
