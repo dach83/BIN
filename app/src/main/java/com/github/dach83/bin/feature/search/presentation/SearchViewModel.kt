@@ -1,5 +1,6 @@
 package com.github.dach83.bin.feature.search.presentation
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -27,12 +28,17 @@ class SearchViewModel(
 
     fun changeCardNumber(cardNumber: String) {
         when {
+            cardNumber.isLoaded() -> return
             cardNumber.isEmpty() -> restoreInitialState()
             cardNumber.isValid() -> startLoadingJob(cardNumber)
         }
     }
 
     private fun String.isValid() = validateCardNumber(cardNumber = this)
+
+    private fun String.isLoaded(): Boolean {
+        return uiState.cardNumber == this && uiState.errorMessage == null
+    }
 
     private fun restoreInitialState() {
         stopLoadingJob()
@@ -44,6 +50,8 @@ class SearchViewModel(
     }
 
     private fun startLoadingJob(cardNumber: String) {
+        Log.d("@@@", "cardNumber: $cardNumber  uiStateCardNumber: ${uiState.cardNumber}")
+
         stopLoadingJob() // stop previously launched job
         uiState = uiState.loading(cardNumber)
         loadingJob = viewModelScope.launch {
