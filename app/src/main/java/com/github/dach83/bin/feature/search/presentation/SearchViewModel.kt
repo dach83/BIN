@@ -45,7 +45,7 @@ class SearchViewModel(
 
     private fun startLoadingJob(cardNumber: String) {
         stopLoadingJob() // stop previously launched job
-        uiState = uiState.loading(cardNumber)
+        uiState = uiState.loading()
         loadingJob = viewModelScope.launch {
             requestCardDetails(cardNumber)
         }

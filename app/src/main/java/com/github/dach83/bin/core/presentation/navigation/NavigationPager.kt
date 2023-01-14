@@ -4,27 +4,28 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.runtime.Composable
+import com.github.dach83.bin.core.presentation.MainUiState
 
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
 fun NavigationPager(
     tabs: List<NavigationTab>,
     pagerState: PagerState,
-    navigationState: NavigationState,
-    updateNavigationState: (NavigationState) -> Unit
+    mainUiState: MainUiState,
+    updateUiState: (MainUiState) -> Unit
 ) {
     HorizontalPager(
         pageCount = tabs.size,
         state = pagerState
     ) { page ->
         tabs[page].screen(
-            cardNumber = navigationState.cardNumber,
+            cardNumber = mainUiState.cardNumber,
             showCardDetails = { cardNumber ->
-                val newState = navigationState.copy(
+                val newState = mainUiState.copy(
                     cardNumber = cardNumber,
                     selectedTabIndex = NavigationScreen.SEARCH.tabIndex
                 )
-                updateNavigationState(newState)
+                updateUiState(newState)
             }
         )
     }

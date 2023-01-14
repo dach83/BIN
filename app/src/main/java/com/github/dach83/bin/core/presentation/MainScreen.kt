@@ -8,39 +8,32 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import com.github.dach83.bin.core.presentation.navigation.*
 import org.koin.androidx.compose.get
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MainScreen(tabs: List<NavigationTab> = get()) {
+fun MainScreen(
+    tabs: List<NavigationTab> = get(),
+    viewModel: MainViewModel = koinViewModel()
+) {
     val pagerState = rememberPagerState()
-    var navigationState by remember {
-        mutableStateOf(
-            NavigationState(
-                cardNumber = "",
-                selectedTabIndex = NavigationScreen.SEARCH.tabIndex
-            )
-        )
-    }
+    val uiState = viewModel.uiState
 
-    LaunchedEffect(key1 = navigationState) {
-        pagerState.animateScrollToPage(navigationState.selectedTabIndex)
+    LaunchedEffect(key1 = uiState) {
+        pagerState.animateScrollToPage(uiState.selectedTabIndex)
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
         NavigationBar(
             tabs = tabs,
-            selectedTabIndex = navigationState.selectedTabIndex,
-            onTabClick = { index ->
-                navigationState = navigationState.copy(selectedTabIndex = index)
-            }
+            selectedTabIndex = uiState.selectedTabIndex,
+            onTabClick = viewModel::displayTab
         )
         NavigationPager(
             tabs = tabs,
             pagerState = pagerState,
-            navigationState = navigationState,
-            updateNavigationState = { state ->
-                navigationState = state
-            }
+            mainUiState = uiState,
+            updateUiState = viewModel::updateState
         )
     }
 }

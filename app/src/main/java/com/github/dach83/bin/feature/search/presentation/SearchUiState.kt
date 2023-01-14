@@ -4,14 +4,12 @@ import androidx.annotation.StringRes
 import com.github.dach83.bin.core.domain.model.details.CardDetails
 
 data class SearchUiState(
-    val cardNumber: String,
     val cardDetails: CardDetails,
     val isLoading: Boolean,
     @StringRes val errorMessage: Int? = null
 ) {
 
-    fun loading(cardNumber: String) = copy(
-        cardNumber = cardNumber,
+    fun loading() = copy(
         cardDetails = CardDetails.EMPTY,
         isLoading = true
     )
@@ -30,7 +28,6 @@ data class SearchUiState(
 
     companion object {
         val INITIAL = SearchUiState(
-            cardNumber = "",
             cardDetails = CardDetails.EMPTY,
             isLoading = false,
             errorMessage = null

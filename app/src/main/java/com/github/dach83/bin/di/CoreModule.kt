@@ -8,6 +8,8 @@ import com.github.dach83.bin.core.data.repository.CardRepositoryImpl
 import com.github.dach83.bin.core.data.time.AndroidClock
 import com.github.dach83.bin.core.data.time.Clock
 import com.github.dach83.bin.core.domain.repository.CardRepository
+import com.github.dach83.bin.core.presentation.MainViewModel
+import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 
 val coreModule = module {
@@ -19,4 +21,6 @@ val coreModule = module {
     single<RemoteCardDataSource> { RetrofitCardDataSource(get()) }
 
     single<CardRepository> { CardRepositoryImpl(get(), get()) }
+
+    viewModelOf(::MainViewModel)
 }

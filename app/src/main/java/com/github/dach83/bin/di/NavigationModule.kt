@@ -17,8 +17,8 @@ val navigationModule = module {
         NavigationTab(
             title = R.string.search_tab,
             icon = Icons.Default.Search,
-            screen = { cardNumber, _ ->
-                SearchScreen(cardNumber)
+            screen = { cardNumber, onChangeCardNumber ->
+                SearchScreen(cardNumber, onChangeCardNumber)
             }
         )
     }
