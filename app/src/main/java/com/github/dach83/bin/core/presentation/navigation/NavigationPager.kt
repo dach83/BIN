@@ -22,7 +22,7 @@ fun NavigationPager(
             showCardDetails = { cardNumber ->
                 val newState = navigationState.copy(
                     cardNumber = cardNumber,
-                    selectedTabIndex = tabs.indexOf(NavigationTab.Search)
+                    selectedTabIndex = NavigationScreen.SEARCH.tabIndex
                 )
                 updateNavigationState(newState)
             }

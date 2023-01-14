@@ -6,6 +6,7 @@ val appModule = module {
     includes(
         roomModule,
         retrofitModule,
+        navigationModule,
         coreModule,
         searchModule,
         historyModule
