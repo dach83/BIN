@@ -1,6 +1,6 @@
 package com.github.dach83.sharedtestcode.models
 
-const val errorResponse = "Not a JSON"
+const val errorResponse = "I'm not a JSON"
 
 val visaCardResponse = """
         {

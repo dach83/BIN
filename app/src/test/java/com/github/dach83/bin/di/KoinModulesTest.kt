@@ -10,7 +10,7 @@ import org.koin.test.KoinTest
 import org.koin.test.check.checkModules
 import org.koin.test.mock.MockProviderRule
 
-class CheckKoinModulesTest : KoinTest {
+class KoinModulesTest : KoinTest {
 
     @get:Rule
     val mockProvider = MockProviderRule.create { clazz ->

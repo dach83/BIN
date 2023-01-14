@@ -1,4 +1,4 @@
-package com.github.dach83.bin.feature.search.presentation
+package com.github.dach83.bin.feature.search.presentation.components
 
 object SearchScreenTags {
     const val ERROR_MESSAGE = "error message"

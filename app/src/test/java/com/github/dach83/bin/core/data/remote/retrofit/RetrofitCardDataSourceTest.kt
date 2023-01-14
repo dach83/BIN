@@ -16,7 +16,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class RetrofitRemoteCardDataSourceTest {
+class RetrofitCardDataSourceTest {
 
     private lateinit var mockWebServer: MockWebServer
     private lateinit var service: BinLookupService
@@ -57,7 +57,7 @@ class RetrofitRemoteCardDataSourceTest {
     }
 
     @Test(expected = AppException::class)
-    fun `incorrect response throw BinException`() = runTest {
+    fun `parse error throw AppException`() = runTest {
         // arrange
         val response = MockResponse()
             .setBody(errorResponse)
@@ -70,10 +70,10 @@ class RetrofitRemoteCardDataSourceTest {
     }
 
     @Test(expected = AppException::class)
-    fun `http error response throw BinException`() = runTest {
+    fun `http error throw AppException`() = runTest {
         // arrange
         val response = MockResponse()
-            .setBody(errorResponse)
+            .setBody(visaCardResponse)
             .setResponseCode(400)
         mockWebServer.enqueue(response)
         val sut = RetrofitCardDataSource(service)

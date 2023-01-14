@@ -2,46 +2,88 @@ package com.github.dach83.bin.feature.search.presentation
 
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
+import com.github.dach83.bin.R
+import com.github.dach83.bin.core.domain.exception.AppException
 import com.github.dach83.bin.core.domain.model.details.CardDetails
+import com.github.dach83.bin.core.domain.repository.CardRepository
+import com.github.dach83.bin.feature.search.presentation.components.SearchScreenTags
+import com.github.dach83.sharedtestcode.fake.FakeCardRepository
 import com.github.dach83.sharedtestcode.models.*
 import org.junit.Rule
 import org.junit.Test
+import org.koin.androidx.compose.get
 
 class SearchScreenTest {
 
     @get:Rule
     val composeRule = createComposeRule()
 
+    private lateinit var repository: FakeCardRepository
+
     @Test
     fun input_empty_card_number_displays_empty_card_details() {
         // arrange
         val expectedCardNumber = CardNumbers.EMPTY
         val expectedCardDetails = emptyCardDetailsOnScreen
+        val expectedError = false
 
         // act
         launchSearchScreen()
         inputCardNumber(CardNumbers.EMPTY)
 
         // assert
-        assertSearchScreen(expectedCardNumber, expectedCardDetails)
+        assertSearchScreen(expectedCardNumber, expectedCardDetails, expectedError)
     }
 
     @Test
-    fun input_correct_card_number_displays_correct_card_details() {
+    fun input_invalid_card_number_displays_empty_card_details() {
+        // arrange
+        val expectedCardNumber = CardNumbers.EMPTY
+        val expectedCardDetails = emptyCardDetailsOnScreen
+        val expectedError = false
+
+        // act
+        launchSearchScreen()
+        inputCardNumber(CardNumbers.INVALID)
+
+        // assert
+        assertSearchScreen(expectedCardNumber, expectedCardDetails, expectedError)
+    }
+
+    @Test
+    fun input_valid_card_number_displays_correct_card_details() {
         // arrange
         val expectedCardNumber = CardNumbers.VISA_FORMATTED
         val expectedCardDetails = visaCardDetails
+        val expectedError = false
 
         // act
         launchSearchScreen()
         inputCardNumber(CardNumbers.VISA)
 
         // assert
-        assertSearchScreen(expectedCardNumber, expectedCardDetails)
+        assertSearchScreen(expectedCardNumber, expectedCardDetails, expectedError)
+    }
+
+    @Test
+    fun in_case_of_failure_displays_error_message() {
+        // arrange
+        val expectedCardNumber = CardNumbers.VISA_FORMATTED
+        val expectedCardDetails = emptyCardDetailsOnScreen
+        val expectedError = true
+
+        // act
+        launchSearchScreen()
+        repository.errorMode(AppException(R.string.no_internet))
+        inputCardNumber(CardNumbers.VISA)
+
+        // assert
+        assertSearchScreen(expectedCardNumber, expectedCardDetails, expectedError)
     }
 
     private fun launchSearchScreen() {
         composeRule.setContent {
+            repository = get<CardRepository>() as FakeCardRepository
             SearchScreen(CardNumbers.EMPTY)
         }
     }
@@ -60,8 +102,15 @@ class SearchScreenTest {
 
     private fun assertSearchScreen(
         expectedCardNumber: String,
-        expectedCardDetails: CardDetails
+        expectedCardDetails: CardDetails,
+        expectedError: Boolean
     ) {
+        // check error message
+        if (expectedError) {
+            composeRule.onNodeWithTag(SearchScreenTags.ERROR_MESSAGE)
+                .assertIsDisplayed()
+        }
+
         // check card number edit
         composeRule.onNodeWithTag(SearchScreenTags.CARD_NUMBER_EDIT)
             .assertTextEquals(expectedCardNumber)

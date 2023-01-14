@@ -4,7 +4,6 @@ import android.util.Patterns
 import androidx.compose.foundation.lazy.LazyListScope
 import com.github.dach83.bin.R
 import com.github.dach83.bin.core.domain.model.details.BankDetails
-import com.github.dach83.bin.feature.search.presentation.SearchScreenTags
 
 fun LazyListScope.bankSection(
     bankDetails: BankDetails,

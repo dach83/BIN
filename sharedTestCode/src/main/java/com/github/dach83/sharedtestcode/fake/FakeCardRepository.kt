@@ -8,13 +8,13 @@ import com.github.dach83.sharedtestcode.models.CardNumbers
 import com.github.dach83.sharedtestcode.models.ERROR_MESSAGE
 import com.github.dach83.sharedtestcode.models.masterCardDetails
 import com.github.dach83.sharedtestcode.models.visaCardDetails
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 
 class FakeCardRepository : CardRepository {
 
     private var error: Exception? = null
     private val queries = mutableListOf<CardQuery>()
+    private val historyFlow = MutableSharedFlow<List<CardQuery>>()
 
     var cardDetailsWasCalled: Boolean = false
         private set
@@ -35,12 +35,10 @@ class FakeCardRepository : CardRepository {
     override suspend fun saveQuery(cardQuery: CardQuery) {
         error?.let { throw it }
         queries.add(cardQuery)
+        historyFlow.emit(queries)
     }
 
-    override fun searchHistory(): Flow<List<CardQuery>> = flow {
-        error?.let { throw it }
-        emit(queries)
-    }
+    override fun searchHistory(): Flow<List<CardQuery>> = historyFlow
 
     fun successMode() {
         this.error = null

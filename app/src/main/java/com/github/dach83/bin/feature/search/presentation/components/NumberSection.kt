@@ -3,7 +3,6 @@ package com.github.dach83.bin.feature.search.presentation.components
 import androidx.compose.foundation.lazy.LazyListScope
 import com.github.dach83.bin.R
 import com.github.dach83.bin.core.domain.model.details.NumberDetails
-import com.github.dach83.bin.feature.search.presentation.SearchScreenTags
 
 fun LazyListScope.numberSection(numberDetails: NumberDetails) {
     listHeader(header = R.string.number_head)

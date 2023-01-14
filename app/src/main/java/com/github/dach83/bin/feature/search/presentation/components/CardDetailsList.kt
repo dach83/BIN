@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
-import com.github.dach83.bin.feature.search.presentation.SearchScreenTags
 import com.github.dach83.bin.feature.search.presentation.SearchUiState
 
 @Composable
