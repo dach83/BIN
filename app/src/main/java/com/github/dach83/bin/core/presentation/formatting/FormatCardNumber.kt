@@ -1,4 +1,4 @@
-package com.github.dach83.bin.feature.search.presentation.components
+package com.github.dach83.bin.core.presentation.formatting
 
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping

@@ -4,7 +4,7 @@ import com.github.dach83.bin.R
 import com.github.dach83.bin.core.data.remote.RemoteCardDataSource
 import com.github.dach83.bin.core.data.remote.retrofit.dto.CardDto
 import com.github.dach83.bin.core.data.remote.retrofit.mapper.toCardDetails
-import com.github.dach83.bin.core.domain.exception.BinException
+import com.github.dach83.bin.core.domain.exception.AppException
 import com.github.dach83.bin.core.domain.model.details.CardDetails
 import com.squareup.moshi.JsonDataException
 import retrofit2.HttpException
@@ -17,31 +17,31 @@ class RemoteCardDataSourceImpl(private val service: BinLookupService) : RemoteCa
         val response = service.lookup(cardNumber)
         response.toCardDetails()
     } catch (cause: JsonDataException) {
-        throw BinException(R.string.unknown_response_format, cause)
+        throw AppException(R.string.unknown_response_format, cause)
     } catch (cause: UnknownHostException) {
-        throw BinException(R.string.no_internet, cause)
+        throw AppException(R.string.no_internet, cause)
     }
 
     private fun Response<CardDto>.toCardDetails(): CardDetails = if (isSuccessful) {
         val cardDto = body()
         cardDto.toCardDetails()
     } else {
-        throwBinException()
+        throwAppException()
     }
 
-    private fun Response<CardDto>.throwBinException(): Nothing {
+    private fun Response<CardDto>.throwAppException(): Nothing {
         when (code()) {
-            NO_MATCHING_CARD -> throw BinException(
+            NO_MATCHING_CARD -> throw AppException(
                 R.string.no_matching_card,
                 HttpException(this)
             )
 
-            TOO_MANY_REQUEST -> throw BinException(
+            TOO_MANY_REQUEST -> throw AppException(
                 R.string.too_many_request,
                 HttpException(this)
             )
 
-            else -> throw BinException(
+            else -> throw AppException(
                 R.string.service_is_unavailable,
                 HttpException(this)
             )

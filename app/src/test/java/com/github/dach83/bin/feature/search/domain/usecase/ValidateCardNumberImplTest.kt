@@ -8,7 +8,7 @@ class ValidateCardNumberImplTest {
 
     @Test
     fun `digits card number is valid`() {
-        val sut = ValidateCardNumberImpl()
+        val sut = ValidateCardNumber()
 
         val isValid = sut(CardNumbers.VISA)
 
@@ -17,7 +17,7 @@ class ValidateCardNumberImplTest {
 
     @Test
     fun `empty card number is invalid`() {
-        val sut = ValidateCardNumberImpl()
+        val sut = ValidateCardNumber()
 
         val isValid = sut(CardNumbers.EMPTY)
 
@@ -26,7 +26,7 @@ class ValidateCardNumberImplTest {
 
     @Test
     fun `blank card number is invalid`() {
-        val sut = ValidateCardNumberImpl()
+        val sut = ValidateCardNumber()
 
         val isValid = sut(CardNumbers.BLANK)
 
@@ -35,7 +35,7 @@ class ValidateCardNumberImplTest {
 
     @Test
     fun `letters card number is invalid`() {
-        val sut = ValidateCardNumberImpl()
+        val sut = ValidateCardNumber()
 
         val isValid = sut(CardNumbers.INVALID)
 
@@ -44,7 +44,7 @@ class ValidateCardNumberImplTest {
 
     @Test
     fun `mixed card number is invalid`() {
-        val sut = ValidateCardNumberImpl()
+        val sut = ValidateCardNumber()
 
         val isValid = sut(CardNumbers.MIXED)
 
@@ -53,7 +53,7 @@ class ValidateCardNumberImplTest {
 
     @Test
     fun `too long card number is invalid`() {
-        val sut = ValidateCardNumberImpl()
+        val sut = ValidateCardNumber()
 
         val isValid = sut(CardNumbers.TOO_LONG)
 

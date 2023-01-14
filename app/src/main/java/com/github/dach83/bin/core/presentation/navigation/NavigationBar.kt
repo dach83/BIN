@@ -8,8 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 
 @Composable
-fun TabsBar(
-    tabs: List<TabItem>,
+fun NavigationBar(
+    tabs: List<NavigationTab>,
     selectedTabIndex: Int,
     onTabClick: (Int) -> Unit
 ) {

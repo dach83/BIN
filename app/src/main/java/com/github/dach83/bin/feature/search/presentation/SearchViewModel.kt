@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.dach83.bin.core.domain.exception.BinException
+import com.github.dach83.bin.core.domain.exception.AppException
 import com.github.dach83.bin.core.domain.model.CardQuery
 import com.github.dach83.bin.feature.search.domain.usecase.LoadCardDetails
 import com.github.dach83.bin.feature.search.domain.usecase.UpdateSearchHistory
@@ -53,8 +53,8 @@ class SearchViewModel(
 
     private suspend fun requestCardDetails(cardNumber: String) = try {
         loadCardDetailsAndUpdateHistory(cardNumber)
-    } catch (error: BinException) {
-        // All errors should be wrapped in a BinException.
+    } catch (error: AppException) {
+        // All errors should be wrapped in our AppException.
         // If we catch another exception, then some unexpected problem
         // has been occurred. In this case, we let the application crash.
         // The sooner we detect the problem, the sooner we can handle it properly.

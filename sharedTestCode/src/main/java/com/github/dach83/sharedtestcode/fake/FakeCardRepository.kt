@@ -1,6 +1,6 @@
 package com.github.dach83.sharedtestcode.fake
 
-import com.github.dach83.bin.core.domain.exception.BinException
+import com.github.dach83.bin.core.domain.exception.AppException
 import com.github.dach83.bin.core.domain.model.CardQuery
 import com.github.dach83.bin.core.domain.model.details.CardDetails
 import com.github.dach83.bin.core.domain.repository.CardRepository
@@ -28,7 +28,7 @@ class FakeCardRepository : CardRepository {
         return when (cardNumber) {
             CardNumbers.VISA -> visaCardDetails
             CardNumbers.MASTER_CARD -> masterCardDetails
-            else -> throw BinException(ERROR_MESSAGE)
+            else -> throw AppException(ERROR_MESSAGE)
         }
     }
 

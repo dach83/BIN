@@ -6,46 +6,47 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import com.github.dach83.bin.core.presentation.navigation.TabItem
-import com.github.dach83.bin.core.presentation.navigation.TabsBar
-import com.github.dach83.bin.core.presentation.navigation.TabsContent
+import com.github.dach83.bin.core.presentation.navigation.NavigationBar
+import com.github.dach83.bin.core.presentation.navigation.NavigationPager
+import com.github.dach83.bin.core.presentation.navigation.NavigationState
+import com.github.dach83.bin.core.presentation.navigation.NavigationTab
 
 private val navigationTabs = listOf(
-    TabItem.Search,
-    TabItem.History
+    NavigationTab.Search,
+    NavigationTab.History
 )
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MainScreen(tabs: List<TabItem> = navigationTabs) {
+fun MainScreen(tabs: List<NavigationTab> = navigationTabs) {
     val pagerState = rememberPagerState()
-    var uiState by remember {
+    var navigationState by remember {
         mutableStateOf(
-            MainUiState(
+            NavigationState(
                 cardNumber = "",
                 selectedTabIndex = pagerState.currentPage
             )
         )
     }
 
-    LaunchedEffect(key1 = uiState) {
-        pagerState.animateScrollToPage(uiState.selectedTabIndex)
+    LaunchedEffect(key1 = navigationState) {
+        pagerState.animateScrollToPage(navigationState.selectedTabIndex)
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        TabsBar(
+        NavigationBar(
             tabs = tabs,
-            selectedTabIndex = uiState.selectedTabIndex,
+            selectedTabIndex = navigationState.selectedTabIndex,
             onTabClick = { index ->
-                uiState = uiState.copy(selectedTabIndex = index)
+                navigationState = navigationState.copy(selectedTabIndex = index)
             }
         )
-        TabsContent(
+        NavigationPager(
             tabs = tabs,
             pagerState = pagerState,
-            uiState = uiState,
-            updateUiState = { newUiState ->
-                uiState = newUiState
+            navigationState = navigationState,
+            updateNavigationState = { state ->
+                navigationState = state
             }
         )
     }

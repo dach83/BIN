@@ -15,12 +15,12 @@ typealias Screen = @Composable (
     showCardDetails: (cardNumber: String) -> Unit
 ) -> Unit
 
-sealed class TabItem(
+sealed class NavigationTab(
     @StringRes val title: Int,
     val icon: ImageVector,
     val screen: Screen
 ) {
-    object Search : TabItem(
+    object Search : NavigationTab(
         title = R.string.search_tab,
         icon = Icons.Default.Search,
         screen = { cardNumber, _ ->
@@ -30,7 +30,7 @@ sealed class TabItem(
         }
     )
 
-    object History : TabItem(
+    object History : NavigationTab(
         title = R.string.history_tab,
         icon = Icons.Default.List,
         screen = { _, showCardDetails ->

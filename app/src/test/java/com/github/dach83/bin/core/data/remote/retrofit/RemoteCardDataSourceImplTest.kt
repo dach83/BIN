@@ -1,6 +1,6 @@
 package com.github.dach83.bin.core.data.remote.retrofit
 
-import com.github.dach83.bin.core.domain.exception.BinException
+import com.github.dach83.bin.core.domain.exception.AppException
 import com.github.dach83.sharedtestcode.models.*
 import com.google.common.truth.Truth.assertThat
 import com.squareup.moshi.Moshi
@@ -56,7 +56,7 @@ class RemoteCardDataSourceImplTest {
         assertThat(actual).isEqualTo(expected)
     }
 
-    @Test(expected = BinException::class)
+    @Test(expected = AppException::class)
     fun `incorrect response throw BinException`() = runTest {
         // arrange
         val response = MockResponse()
@@ -69,7 +69,7 @@ class RemoteCardDataSourceImplTest {
         sut.cardDetails(CardNumbers.VISA)
     }
 
-    @Test(expected = BinException::class)
+    @Test(expected = AppException::class)
     fun `http error response throw BinException`() = runTest {
         // arrange
         val response = MockResponse()

@@ -1,11 +1,11 @@
 package com.github.dach83.bin.feature.search.presentation
 
-import com.github.dach83.bin.core.domain.exception.BinException
+import com.github.dach83.bin.core.domain.exception.AppException
 import com.github.dach83.bin.core.domain.model.details.CardDetails
 import com.github.dach83.bin.feature.search.*
-import com.github.dach83.bin.feature.search.domain.usecase.LoadCardDetailsImpl
-import com.github.dach83.bin.feature.search.domain.usecase.UpdateSearchHistoryImpl
-import com.github.dach83.bin.feature.search.domain.usecase.ValidateCardNumberImpl
+import com.github.dach83.bin.feature.search.domain.usecase.LoadCardDetails
+import com.github.dach83.bin.feature.search.domain.usecase.UpdateSearchHistory
+import com.github.dach83.bin.feature.search.domain.usecase.ValidateCardNumber
 import com.github.dach83.bin.rule.CoroutineRule
 import com.github.dach83.sharedtestcode.*
 import com.github.dach83.sharedtestcode.fake.FakeCardRepository
@@ -76,7 +76,7 @@ class SearchViewModelTest {
     fun `initial state, input valid card number, request failed`() = runTest {
         // assert
         val sut = searchViewModelInInitialState()
-        fakeRepository.errorMode(BinException(ERROR_MESSAGE))
+        fakeRepository.errorMode(AppException(ERROR_MESSAGE))
 
         // act
         sut.changeCardNumber(CardNumbers.VISA)
@@ -244,9 +244,9 @@ class SearchViewModelTest {
     }
 
     private fun searchViewModelInInitialState() = SearchViewModel(
-        validateCardNumber = ValidateCardNumberImpl(),
-        loadCardDetails = LoadCardDetailsImpl(fakeRepository),
-        updateSearchHistory = UpdateSearchHistoryImpl(fakeRepository)
+        validateCardNumber = ValidateCardNumber(),
+        loadCardDetails = LoadCardDetails(fakeRepository),
+        updateSearchHistory = UpdateSearchHistory(fakeRepository)
     ).apply {
         assertThat(uiState).isEqualTo(SearchUiState.INITIAL)
     }
@@ -277,7 +277,7 @@ class SearchViewModelTest {
             isLoading = false,
             errorMessage = ERROR_MESSAGE
         )
-        fakeRepository.errorMode(BinException(ERROR_MESSAGE))
+        fakeRepository.errorMode(AppException(ERROR_MESSAGE))
         changeCardNumber(cardNumber)
         advanceUntilIdle()
         assertThat(uiState).isEqualTo(expected)

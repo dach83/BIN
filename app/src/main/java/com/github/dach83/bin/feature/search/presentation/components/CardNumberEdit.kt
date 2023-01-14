@@ -13,6 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import com.github.dach83.bin.R
+import com.github.dach83.bin.core.presentation.formatting.formatCardNumber
 import com.github.dach83.bin.feature.search.presentation.SearchScreenTags
 
 @Composable

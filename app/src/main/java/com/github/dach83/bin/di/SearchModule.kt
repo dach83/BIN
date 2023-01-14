@@ -7,11 +7,11 @@ import org.koin.dsl.module
 
 val searchModule = module {
 
-    single<ValidateCardNumber> { ValidateCardNumberImpl() }
+    single<ValidateCardNumber> { ValidateCardNumber() }
 
-    single<LoadCardDetails> { LoadCardDetailsImpl(get()) }
+    single<LoadCardDetails> { LoadCardDetails(get()) }
 
-    single<UpdateSearchHistory> { UpdateSearchHistoryImpl(get()) }
+    single<UpdateSearchHistory> { UpdateSearchHistory(get()) }
 
     viewModelOf(::SearchViewModel)
 }
