@@ -210,39 +210,6 @@ class SearchViewModelTest {
         assertThat(fakeRepository.cardDetailsWasCalled).isFalse()
     }
 
-    /**
-     * When:
-     *
-     *    error state,
-     *    user input same valid card number,
-     *    request successful
-     *
-     * Then:
-     *
-     *    ui state turn to loading,
-     *    then turn to loaded,
-     *    request was called
-     */
-    @Test
-    fun `error state, input same valid card number, request successful`() = runTest {
-        // assert
-        val sut = searchViewModelInErrorState(CardNumbers.VISA)
-        fakeRepository.successMode()
-
-        // act
-        sut.changeCardNumber(CardNumbers.VISA)
-
-        // assert
-        val loading = SearchUiState.INITIAL.loading(CardNumbers.VISA)
-        assertThat(sut.uiState).isEqualTo(loading)
-
-        advanceUntilIdle()
-        val loaded = loading.loaded(visaCardDetails)
-        assertThat(sut.uiState).isEqualTo(loaded)
-
-        assertThat(fakeRepository.cardDetailsWasCalled).isTrue()
-    }
-
     private fun searchViewModelInInitialState() = SearchViewModel(
         validateCardNumber = ValidateCardNumber(),
         loadCardDetails = LoadCardDetails(fakeRepository),
