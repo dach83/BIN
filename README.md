@@ -15,3 +15,29 @@
 Приложение должно быть реализовано на языке Kotlin. Можно пользоваться любыми
 библиотеками, но необходимо объяснить в сопроводительном письме к заданию, почему каждая
 из библиотек была вами использована и почему именно эта, а не её аналог.
+
+## Первый запуск приложения
+![Navigation](demo/Navigation.gif)
+
+## Загрузка данных карты
+![Loading](demo/Loading.gif)
+
+## Некорректный ввод
+![InvalidInput](demo/InvalidInput.gif)
+
+## Сообщения об ошибках
+![Error](demo/Error.gif)
+
+## История запросов
+![SearchHistory](demo/SearchHistory.gif)
+
+## Браузер
+![OpenUrl](demo/OpenUrl.gif)
+
+## Звонилка
+![OpenPhone](demo/OpenPhone.gif)
+
+## Карта
+![OpenMap](demo/OpenMap.gif)
+
+

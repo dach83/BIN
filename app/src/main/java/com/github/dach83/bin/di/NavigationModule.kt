@@ -1,15 +1,41 @@
 package com.github.dach83.bin.di
 
-import com.github.dach83.bin.core.presentation.navigation.NAVIGATION_TABS
-import com.github.dach83.bin.core.presentation.navigation.TabItem
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Search
+import com.github.dach83.bin.R
+import com.github.dach83.bin.core.presentation.navigation.NavigationScreen
+import com.github.dach83.bin.core.presentation.navigation.NavigationTab
+import com.github.dach83.bin.feature.history.presentation.HistoryScreen
+import com.github.dach83.bin.feature.search.presentation.SearchScreen
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val navigationModule = module {
-    single(named(NAVIGATION_TABS)) {
-        listOf(
-            TabItem.Search,
-            TabItem.History
+
+    single<NavigationTab>(named(NavigationScreen.SEARCH)) {
+        NavigationTab(
+            title = R.string.search_tab,
+            icon = Icons.Default.Search,
+            screen = { cardNumber, onChangeCardNumber ->
+                SearchScreen(cardNumber, onChangeCardNumber)
+            }
         )
+    }
+
+    single<NavigationTab>(named(NavigationScreen.HISTORY)) {
+        NavigationTab(
+            title = R.string.history_tab,
+            icon = Icons.Default.List,
+            screen = { _, showCardDetails ->
+                HistoryScreen(showCardDetails)
+            }
+        )
+    }
+
+    single<List<NavigationTab>> {
+        NavigationScreen.values().map { tag ->
+            get<NavigationTab>(named(tag))
+        }.toList()
     }
 }

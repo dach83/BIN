@@ -2,125 +2,161 @@ package com.github.dach83.bin.feature.search.presentation
 
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
-import com.github.dach83.bin.feature.search.domain.model.CardDetails
+import com.github.dach83.bin.R
+import com.github.dach83.bin.core.domain.exception.AppException
+import com.github.dach83.bin.core.domain.model.details.CardDetails
+import com.github.dach83.bin.core.domain.repository.CardRepository
+import com.github.dach83.bin.feature.search.presentation.components.SearchScreenTags
+import com.github.dach83.sharedtestcode.fake.FakeCardRepository
+import com.github.dach83.sharedtestcode.models.CardNumbers
+import com.github.dach83.sharedtestcode.models.emptyCardDetailsOnScreen
+import com.github.dach83.sharedtestcode.models.visaCardDetails
 import org.junit.Rule
 import org.junit.Test
+import org.koin.androidx.compose.get
 
 class SearchScreenTest {
 
     @get:Rule
     val composeRule = createComposeRule()
 
+    private lateinit var repository: FakeCardRepository
+
     @Test
-    fun initial_state_all_elements_have_default_values() {
+    fun input_empty_card_number_displays_empty_card_details() {
         // arrange
-        val expectedCardNumber = ""
-        val expectedCardDetails = CardDetails.EMPTY
+        val expectedCardNumber = CardNumbers.EMPTY
+        val expectedCardDetails = emptyCardDetailsOnScreen
+        val expectedError = false
 
         // act
         launchSearchScreen()
+        inputCardNumber(CardNumbers.EMPTY)
 
         // assert
-        assertSearchScreen(expectedCardNumber, expectedCardDetails)
+        assertSearchScreen(expectedCardNumber, expectedCardDetails, expectedError)
     }
 
-    private fun assertSearchScreen(
-        expectedCardNumber: String,
-        expectedCardDetails: CardDetails
-    ) {
-        composeRule
-            .onNodeWithTag(SearchTestTags.INPUT_CARD_NUMBER)
-            .assertIsDisplayed()
-            .assertTextEquals(expectedCardNumber)
+    @Test
+    fun input_invalid_card_number_displays_empty_card_details() {
+        // arrange
+        val expectedCardNumber = CardNumbers.EMPTY
+        val expectedCardDetails = emptyCardDetailsOnScreen
+        val expectedError = false
 
-        // scroll to card section
-        composeRule
-            .onNodeWithTag(SearchTestTags.LAZY_COLUMN)
-            .performScrollToNode(hasTestTag(SearchTestTags.CARD_PREPAID))
-        composeRule
-            .onNodeWithTag(SearchTestTags.CARD_SCHEME)
-            .assertIsDisplayed()
-            .assertTextEquals(expectedCardDetails.scheme)
-        composeRule
-            .onNodeWithTag(SearchTestTags.CARD_TYPE)
-            .assertIsDisplayed()
-            .assertTextEquals(expectedCardDetails.type)
-        composeRule
-            .onNodeWithTag(SearchTestTags.CARD_BRAND)
-            .assertIsDisplayed()
-            .assertTextEquals(expectedCardDetails.brand)
-        composeRule
-            .onNodeWithTag(SearchTestTags.CARD_PREPAID)
-            .assertIsDisplayed()
-            .assertTextEquals(expectedCardDetails.prepaid)
+        // act
+        launchSearchScreen()
+        inputCardNumber(CardNumbers.INVALID)
 
-        // scroll to number section
-        composeRule
-            .onNodeWithTag(SearchTestTags.LAZY_COLUMN)
-            .performScrollToNode(hasTestTag(SearchTestTags.NUMBER_LUHN))
-        composeRule
-            .onNodeWithTag(SearchTestTags.NUMBER_LENGTH)
-            .assertIsDisplayed()
-            .assertTextEquals(expectedCardDetails.number.length)
-        composeRule
-            .onNodeWithTag(SearchTestTags.NUMBER_LUHN)
-            .assertIsDisplayed()
-            .assertTextEquals(expectedCardDetails.number.luhn)
+        // assert
+        assertSearchScreen(expectedCardNumber, expectedCardDetails, expectedError)
+    }
 
-        // scroll to country section
-        composeRule
-            .onNodeWithTag(SearchTestTags.LAZY_COLUMN)
-            .performScrollToNode(hasTestTag(SearchTestTags.COUNTRY_LONGITUDE))
-        composeRule
-            .onNodeWithTag(SearchTestTags.COUNTRY_NUMERIC)
-            .assertIsDisplayed()
-            .assertTextEquals(expectedCardDetails.country.numeric)
-        composeRule
-            .onNodeWithTag(SearchTestTags.COUNTRY_ALPHA2)
-            .assertIsDisplayed()
-            .assertTextEquals(expectedCardDetails.country.alpha2)
-        composeRule
-            .onNodeWithTag(SearchTestTags.COUNTRY_NAME)
-            .assertIsDisplayed()
-            .assertTextEquals(expectedCardDetails.country.name)
-        composeRule
-            .onNodeWithTag(SearchTestTags.COUNTRY_CURRENCY)
-            .assertIsDisplayed()
-            .assertTextEquals(expectedCardDetails.country.currency)
-        composeRule
-            .onNodeWithTag(SearchTestTags.COUNTRY_LATITUDE)
-            .assertIsDisplayed()
-            .assertTextEquals(expectedCardDetails.country.latitude)
-        composeRule
-            .onNodeWithTag(SearchTestTags.COUNTRY_LONGITUDE)
-            .assertIsDisplayed()
-            .assertTextEquals(expectedCardDetails.country.longitude)
+    @Test
+    fun input_valid_card_number_displays_correct_card_details() {
+        // arrange
+        val expectedCardNumber = CardNumbers.VISA_FORMATTED
+        val expectedCardDetails = visaCardDetails
+        val expectedError = false
 
-        // scroll to bank section
-        composeRule
-            .onNodeWithTag(SearchTestTags.LAZY_COLUMN)
-            .performScrollToNode(hasTestTag(SearchTestTags.BANK_CITY))
-        composeRule
-            .onNodeWithTag(SearchTestTags.BANK_NAME)
-            .assertIsDisplayed()
-            .assertTextEquals(expectedCardDetails.bank.name)
-        composeRule
-            .onNodeWithTag(SearchTestTags.BANK_URL)
-            .assertIsDisplayed()
-            .assertTextEquals(expectedCardDetails.bank.url)
-        composeRule
-            .onNodeWithTag(SearchTestTags.BANK_PHONE)
-            .assertIsDisplayed()
-            .assertTextEquals(expectedCardDetails.bank.phone)
-        composeRule
-            .onNodeWithTag(SearchTestTags.BANK_CITY)
-            .assertIsDisplayed()
-            .assertTextEquals(expectedCardDetails.bank.city)
+        // act
+        launchSearchScreen()
+        inputCardNumber(CardNumbers.VISA)
+
+        // assert
+        assertSearchScreen(expectedCardNumber, expectedCardDetails, expectedError)
+    }
+
+    @Test
+    fun in_case_of_failure_displays_error_message() {
+        // arrange
+        val expectedCardNumber = CardNumbers.VISA_FORMATTED
+        val expectedCardDetails = emptyCardDetailsOnScreen
+        val expectedError = true
+
+        // act
+        launchSearchScreen()
+        repository.errorMode(AppException(R.string.no_internet))
+        inputCardNumber(CardNumbers.VISA)
+
+        // assert
+        assertSearchScreen(expectedCardNumber, expectedCardDetails, expectedError)
     }
 
     private fun launchSearchScreen() {
         composeRule.setContent {
-            SearchScreen()
+            repository = get<CardRepository>() as FakeCardRepository
+            SearchScreen(CardNumbers.EMPTY)
         }
+    }
+
+    private fun inputCardNumber(cardNumber: String) {
+        composeRule.onNodeWithTag(SearchScreenTags.CARD_NUMBER_EDIT)
+            .performTextReplacement(cardNumber)
+        waitUntilLoading()
+    }
+
+    private fun waitUntilLoading() = composeRule.waitUntil {
+        composeRule.onAllNodesWithTag(SearchScreenTags.LOADING_INDICATOR)
+            .fetchSemanticsNodes()
+            .isEmpty()
+    }
+
+    private fun assertSearchScreen(
+        expectedCardNumber: String,
+        expectedCardDetails: CardDetails,
+        expectedError: Boolean
+    ) {
+        // check error message
+        if (expectedError) {
+            composeRule.onNodeWithTag(SearchScreenTags.ERROR_MESSAGE)
+                .assertIsDisplayed()
+        }
+
+        // check card number edit
+        composeRule.onNodeWithTag(SearchScreenTags.CARD_NUMBER_EDIT)
+            .assertTextEquals(expectedCardNumber)
+
+        // check card section
+        composeRule.onNodeWithTag(SearchScreenTags.CARD_SCHEME)
+            .assertTextEquals(expectedCardDetails.scheme)
+        composeRule.onNodeWithTag(SearchScreenTags.CARD_TYPE)
+            .assertTextEquals(expectedCardDetails.type)
+        composeRule.onNodeWithTag(SearchScreenTags.CARD_BRAND)
+            .assertTextEquals(expectedCardDetails.brand)
+        composeRule.onNodeWithTag(SearchScreenTags.CARD_PREPAID)
+            .assertTextEquals(expectedCardDetails.prepaid)
+
+        // check number section
+        composeRule.onNodeWithTag(SearchScreenTags.NUMBER_LENGTH)
+            .assertTextEquals(expectedCardDetails.number.length)
+        composeRule.onNodeWithTag(SearchScreenTags.NUMBER_LUHN)
+            .assertTextEquals(expectedCardDetails.number.luhn)
+
+        // check country section
+        composeRule.onNodeWithTag(SearchScreenTags.COUNTRY_NUMERIC)
+            .assertTextEquals(expectedCardDetails.country.numeric)
+        composeRule.onNodeWithTag(SearchScreenTags.COUNTRY_ALPHA2)
+            .assertTextEquals(expectedCardDetails.country.alpha2)
+        composeRule.onNodeWithTag(SearchScreenTags.COUNTRY_NAME)
+            .assertTextEquals(expectedCardDetails.country.name)
+        composeRule.onNodeWithTag(SearchScreenTags.COUNTRY_CURRENCY)
+            .assertTextEquals(expectedCardDetails.country.currency)
+        composeRule.onNodeWithTag(SearchScreenTags.COUNTRY_LATITUDE)
+            .assertTextEquals(expectedCardDetails.country.latitude)
+        composeRule.onNodeWithTag(SearchScreenTags.COUNTRY_LONGITUDE)
+            .assertTextEquals(expectedCardDetails.country.longitude)
+
+        // check bank section
+        composeRule.onNodeWithTag(SearchScreenTags.CARD_DETAILS_LIST)
+            .performScrollToNode(hasTestTag(SearchScreenTags.BANK_CITY))
+        composeRule.onNodeWithTag(SearchScreenTags.BANK_NAME)
+            .assertTextEquals(expectedCardDetails.bank.name)
+        composeRule.onNodeWithTag(SearchScreenTags.BANK_URL)
+            .assertTextEquals(expectedCardDetails.bank.url)
+        composeRule.onNodeWithTag(SearchScreenTags.BANK_PHONE)
+            .assertTextEquals(expectedCardDetails.bank.phone)
+        composeRule.onNodeWithTag(SearchScreenTags.BANK_CITY)
+            .assertTextEquals(expectedCardDetails.bank.city)
     }
 }

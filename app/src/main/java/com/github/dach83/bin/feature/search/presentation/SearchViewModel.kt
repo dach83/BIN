@@ -5,9 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.dach83.bin.R
-import com.github.dach83.bin.feature.search.domain.exception.SearchException
-import com.github.dach83.bin.feature.search.domain.usecase.RequestCardDetails
+import com.github.dach83.bin.core.domain.exception.AppException
+import com.github.dach83.bin.core.domain.model.CardQuery
+import com.github.dach83.bin.feature.search.domain.usecase.LoadCardDetails
+import com.github.dach83.bin.feature.search.domain.usecase.UpdateSearchHistory
 import com.github.dach83.bin.feature.search.domain.usecase.ValidateCardNumber
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -15,66 +16,63 @@ import kotlinx.coroutines.launch
 
 class SearchViewModel(
     private val validateCardNumber: ValidateCardNumber,
-    private val requestCardDetails: RequestCardDetails
+    private val loadCardDetails: LoadCardDetails,
+    private val updateSearchHistory: UpdateSearchHistory
 ) : ViewModel() {
 
     var uiState by mutableStateOf(SearchUiState.INITIAL)
         private set
 
-    private var loadingCardDetailsJob: Job? = null
+    private var loadingJob: Job? = null
 
     fun changeCardNumber(cardNumber: String) {
-        if (isEmptyCardNumber(cardNumber)) {
-            resetToInitialState()
-            return
-        }
-
-        if (isValidCardNumber(cardNumber)) {
-            loadCardDetails(cardNumber)
+        when {
+            cardNumber.isEmpty() -> restoreInitialState()
+            cardNumber.isValid() -> startLoadingJob(cardNumber)
         }
     }
 
-    private fun isEmptyCardNumber(cardNumber: String): Boolean = cardNumber.isEmpty()
+    private fun String.isValid() = validateCardNumber(cardNumber = this)
 
-    private fun isValidCardNumber(cardNumber: String): Boolean = validateCardNumber(cardNumber)
-
-    private fun resetToInitialState() {
+    private fun restoreInitialState() {
+        stopLoadingJob()
         uiState = SearchUiState.INITIAL
-        loadingCardDetailsJob?.cancel()
     }
 
-    private fun loadCardDetails(cardNumber: String) {
-        if (cardDetailsAlreadyLoading(cardNumber)) {
-            return
-        }
+    private fun stopLoadingJob() {
+        loadingJob?.cancel()
+    }
 
+    private fun startLoadingJob(cardNumber: String) {
+        stopLoadingJob() // stop previously launched job
         uiState = uiState.loading(cardNumber)
-        loadingCardDetailsJob?.cancel()
-        loadingCardDetailsJob = viewModelScope.launch {
-            runCatching {
-                delay(WAIT_USER_INPUT_BEFORE_REQUEST)
-                requestCardDetails(cardNumber)
-            }.onSuccess { cardDetails ->
-                uiState = uiState.loaded(cardDetails)
-            }.onFailure { exception ->
-                val errorMessage = errorMessage(exception)
-                uiState = uiState.error(errorMessage)
-            }
+        loadingJob = viewModelScope.launch {
+            requestCardDetails(cardNumber)
         }
     }
 
-    private fun cardDetailsAlreadyLoading(cardNumber: String): Boolean {
-        return uiState.cardNumber == cardNumber && uiState.errorMessage == null
+    private suspend fun requestCardDetails(cardNumber: String) = try {
+        loadCardDetailsAndUpdateHistory(cardNumber)
+    } catch (error: AppException) {
+        // All errors should be wrapped in our AppException.
+        // If we catch another exception, then some unexpected problem
+        // has been occurred. In this case, we let the application crash.
+        // The sooner we detect the problem, the sooner we can handle it properly.
+        uiState = uiState.error(error.friendlyMessage)
     }
 
-    private fun errorMessage(exception: Throwable): Int =
-        if (exception is SearchException) {
-            exception.errorMessage
-        } else {
-            R.string.default_search_error_message
-        }
+    private suspend fun loadCardDetailsAndUpdateHistory(cardNumber: String) {
+        delay(WAIT_USER_INPUT_BEFORE_SEND_NETWORK_REQUEST)
+        val cardDetails = loadCardDetails(cardNumber)
+        uiState = uiState.loaded(cardDetails)
+
+        delay(WAIT_USER_INPUT_BEFORE_UPDATE_SEARCH_HISTORY)
+        val cardQuery = CardQuery(cardNumber)
+        updateSearchHistory(cardQuery)
+    }
 
     companion object {
-        const val WAIT_USER_INPUT_BEFORE_REQUEST = 500L
+        const val WAIT_USER_INPUT_BEFORE_SEND_NETWORK_REQUEST = 500L
+        const val WAIT_USER_INPUT_BEFORE_UPDATE_SEARCH_HISTORY = 1_000L
     }
 }
