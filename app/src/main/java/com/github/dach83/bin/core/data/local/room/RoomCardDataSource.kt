@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.*
 
-class LocalCardDataSourceImpl(
+class RoomCardDataSource(
     private val cardDao: CardDao
 ) : LocalCardDataSource {
 

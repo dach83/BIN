@@ -1,5 +1,6 @@
 package com.github.dach83.bin.di
 
+import com.github.dach83.bin.BuildConfig
 import com.github.dach83.bin.core.data.remote.retrofit.BinLookupService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -13,7 +14,11 @@ val retrofitModule = module {
         OkHttpClient.Builder()
             .addInterceptor(
                 HttpLoggingInterceptor().apply {
-                    level = HttpLoggingInterceptor.Level.BASIC
+                    level = if (BuildConfig.DEBUG) {
+                        HttpLoggingInterceptor.Level.BODY
+                    } else {
+                        HttpLoggingInterceptor.Level.NONE
+                    }
                 }
             )
             .build()

@@ -11,7 +11,7 @@ import retrofit2.HttpException
 import retrofit2.Response
 import java.net.UnknownHostException
 
-class RemoteCardDataSourceImpl(private val service: BinLookupService) : RemoteCardDataSource {
+class RetrofitCardDataSource(private val service: BinLookupService) : RemoteCardDataSource {
 
     override suspend fun cardDetails(cardNumber: String): CardDetails = try {
         val response = service.lookup(cardNumber)
@@ -31,6 +31,11 @@ class RemoteCardDataSourceImpl(private val service: BinLookupService) : RemoteCa
 
     private fun Response<CardDto>.throwAppException(): Nothing {
         when (code()) {
+            TOO_SHORT_NUMBER -> throw AppException(
+                R.string.too_short_number,
+                HttpException(this)
+            )
+
             NO_MATCHING_CARD -> throw AppException(
                 R.string.no_matching_card,
                 HttpException(this)
@@ -49,6 +54,10 @@ class RemoteCardDataSourceImpl(private val service: BinLookupService) : RemoteCa
     }
 
     companion object {
+        // If less than 4 digits of the card number were sent,
+        // the service response HTTP 400
+        private const val TOO_SHORT_NUMBER = 400
+
         // If no matching cards are found an HTTP 404 response is returned.
         private const val NO_MATCHING_CARD = 404
 

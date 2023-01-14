@@ -13,8 +13,7 @@ data class SearchUiState(
     fun loading(cardNumber: String) = copy(
         cardNumber = cardNumber,
         cardDetails = CardDetails.EMPTY,
-        isLoading = true,
-        errorMessage = null
+        isLoading = true
     )
 
     fun loaded(cardDetails: CardDetails) = copy(
@@ -24,8 +23,8 @@ data class SearchUiState(
     )
 
     fun error(@StringRes errorMessage: Int) = copy(
-        isLoading = false,
         cardDetails = CardDetails.EMPTY,
+        isLoading = false,
         errorMessage = errorMessage
     )
 

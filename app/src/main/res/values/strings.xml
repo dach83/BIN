@@ -30,6 +30,7 @@
     <string name="no_search_yet">You haven\'t success search yet</string>
     <!--  Error messages  -->
     <string name="no_internet">No internet connection</string>
+    <string name="too_short_number">Too short card number</string>
     <string name="too_many_request">Too many request</string>
     <string name="service_is_unavailable">Service is unavailable</string>
     <string name="unknown_response_format">Unknown response format</string>

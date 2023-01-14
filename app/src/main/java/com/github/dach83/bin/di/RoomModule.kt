@@ -12,9 +12,7 @@ val roomModule = module {
             context = get(),
             klass = CardDatabase::class.java,
             name = "card-db"
-        )
-            .fallbackToDestructiveMigration() // todo: delete
-            .build()
+        ).build()
     }
 
     single<CardDao> {
