@@ -8,7 +8,9 @@ import com.github.dach83.bin.core.domain.model.details.CardDetails
 import com.github.dach83.bin.core.domain.repository.CardRepository
 import com.github.dach83.bin.feature.search.presentation.components.SearchScreenTags
 import com.github.dach83.sharedtestcode.fake.FakeCardRepository
-import com.github.dach83.sharedtestcode.models.*
+import com.github.dach83.sharedtestcode.models.CardNumbers
+import com.github.dach83.sharedtestcode.models.emptyCardDetailsOnScreen
+import com.github.dach83.sharedtestcode.models.visaCardDetails
 import org.junit.Rule
 import org.junit.Test
 import org.koin.androidx.compose.get

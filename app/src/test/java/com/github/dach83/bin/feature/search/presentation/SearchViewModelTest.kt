@@ -49,7 +49,7 @@ class SearchViewModelTest {
         sut.changeCardNumber(CardNumbers.VISA)
 
         // assert
-        val loading = SearchUiState.INITIAL.loading()
+        val loading = SearchUiState.INITIAL.loading(CardNumbers.VISA)
         assertThat(sut.uiState).isEqualTo(loading)
 
         advanceUntilIdle()
@@ -82,7 +82,7 @@ class SearchViewModelTest {
         sut.changeCardNumber(CardNumbers.VISA)
 
         // assert
-        val loading = SearchUiState.INITIAL.loading()
+        val loading = SearchUiState.INITIAL.loading(CardNumbers.VISA)
         assertThat(sut.uiState).isEqualTo(loading)
 
         advanceUntilIdle()
@@ -171,7 +171,7 @@ class SearchViewModelTest {
         sut.changeCardNumber(CardNumbers.MASTER_CARD)
 
         // assert
-        val loading = SearchUiState.INITIAL.loading()
+        val loading = SearchUiState.INITIAL.loading(CardNumbers.MASTER_CARD)
         assertThat(sut.uiState).isEqualTo(loading)
         advanceUntilIdle()
         val loaded = loading.loaded(masterCardDetails)
@@ -232,6 +232,7 @@ class SearchViewModelTest {
 
         // assert
         val loading = SearchUiState(
+            cardNumber = CardNumbers.MASTER_CARD,
             cardDetails = CardDetails.EMPTY,
             isLoading = true,
             errorMessage = ERROR_MESSAGE
@@ -256,6 +257,7 @@ class SearchViewModelTest {
         cardDetails: CardDetails
     ) = searchViewModelInInitialState().apply {
         val expected = SearchUiState(
+            cardNumber = cardNumber,
             cardDetails = cardDetails,
             isLoading = false,
             errorMessage = null
@@ -271,6 +273,7 @@ class SearchViewModelTest {
         cardNumber: String
     ) = searchViewModelInInitialState().apply {
         val expected = SearchUiState(
+            cardNumber = cardNumber,
             cardDetails = CardDetails.EMPTY,
             isLoading = false,
             errorMessage = ERROR_MESSAGE

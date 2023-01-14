@@ -14,7 +14,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun SearchScreen(
     cardNumber: String,
-    onChangeCardNumber: (cardNumber: String) -> Unit,
+    onChangeCardNumber: (cardNumber: String) -> Unit = {},
     viewModel: SearchViewModel = koinViewModel()
 ) {
     LaunchedEffect(key1 = cardNumber) {
@@ -35,7 +35,7 @@ fun SearchScreen(
             LoadingIndicator(uiState)
         }
         CardNumberEdit(
-            cardNumber = cardNumber,
+            cardNumber = uiState.cardNumber,
             onValueChange = { newCardNumber ->
                 viewModel.changeCardNumber(newCardNumber)
                 onChangeCardNumber(newCardNumber)
