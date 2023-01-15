@@ -3,13 +3,13 @@ package com.github.dach83.bin.core.presentation
 import com.github.dach83.bin.core.presentation.navigation.NavigationScreen
 
 data class MainUiState(
-    val cardNumber: String,
-    val selectedTabIndex: Int
+    val selectedTabIndex: Int,
+    val cardNumber: String
 ) {
     companion object {
         val INITIAL = MainUiState(
-            cardNumber = "",
-            selectedTabIndex = NavigationScreen.SEARCH.tabIndex
+            selectedTabIndex = NavigationScreen.SEARCH.tabIndex,
+            cardNumber = ""
         )
     }
 }
