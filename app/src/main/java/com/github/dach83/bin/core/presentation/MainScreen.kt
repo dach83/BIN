@@ -20,13 +20,15 @@ fun MainScreen(
     val uiState = viewModel.uiState
 
     LaunchedEffect(key1 = uiState) {
+        // If click on the card number in the history tab,
+        // then should open Search tab with selected number
         pagerState.animateScrollToPage(uiState.selectedTabIndex)
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
         NavigationBar(
             tabs = tabs,
-            selectedTabIndex = uiState.selectedTabIndex,
+            selectedTabIndex = pagerState.currentPage,
             onTabClick = viewModel::displayTab
         )
         NavigationPager(
