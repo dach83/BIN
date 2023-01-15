@@ -33,11 +33,11 @@ class SearchViewModel(
         }
     }
 
-    private fun String.isValid() = validateCardNumber(cardNumber = this)
-
     private fun String.isLoaded(): Boolean {
         return uiState.cardNumber == this && uiState.errorMessage == null
     }
+
+    private fun String.isValid() = validateCardNumber(cardNumber = this)
 
     private fun restoreInitialState() {
         stopLoadingJob()
